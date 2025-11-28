@@ -1,0 +1,100 @@
+CREATE TABLE users (
+    idusuario       INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name            TEXT,
+    lastname        TEXT,
+    email           TEXT UNIQUE NOT NULL,
+    password_hash   TEXT NOT NULL,
+    role            TEXT NOT NULL DEFAULT 'user',
+    created_at      TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE formulario (
+    idformulario                    INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    nombre                          TEXT,
+    apellido                        TEXT,
+    telefono                        INTEGER,
+    mail                            TEXT,
+    fecha_nacimiento                TEXT,
+    direccion                       TEXT,
+    ciudad                          TEXT,
+    provincia                       TEXT,
+    codigo_postal                   INTEGER,
+    pais                            TEXT,
+    tipo_documento                  TEXT,
+    numero_documento                INTEGER,
+    tipo_vivienda                   TEXT NOT NULL,
+    espacio_seguro                  TEXT NOT NULL,
+    tiempo_solo                     INTEGER NOT NULL,
+    personas_encasa                 INTEGER NOT NULL,
+    familia_deacuerdo               TEXT NOT NULL,
+    otras_mascotas_anteriormente    TEXT NOT NULL,
+    tipo                            TEXT NOT NULL,
+    eventos                         TEXT NOT NULL,
+    otras_mascotas_actualmente      INTEGER NOT NULL,
+    tipo_mascotas_actual            TEXT NOT NULL,
+    recursos                        TEXT NOT NULL,
+    vacunar_y_esterilizar           TEXT NOT NULL,
+    encargado_cuidado               TEXT NOT NULL,
+    sitio_animal_solo               TEXT NOT NULL,
+    rol_del_animal                  TEXT NOT NULL,
+    estado                          TEXT NOT NULL
+);
+
+CREATE TABLE productos (
+    idproducto     INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    nombre         TEXT,
+    url_imagen     TEXT,
+    stock          INTEGER
+);
+
+CREATE TABLE compra (
+    idcompra   INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    producto   INTEGER,
+    unidades   INTEGER,
+    precio     INTEGER,
+    FOREIGN KEY (producto) REFERENCES productos(idproducto)
+);
+
+CREATE TABLE animal (
+    idanimal     INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    nombre       TEXT,
+    edad         INTEGER,
+    descripcion  TEXT,
+    imagen_m     TEXT,
+    dueño        INTEGER,
+    FOREIGN KEY (dueño) REFERENCES users(idusuario)
+);
+
+CREATE TABLE turno (
+    idturno  INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    mascota  INTEGER,
+    motivo   TEXT,
+    fecha    TEXT,
+    estado   TEXT NOT NULL,
+    FOREIGN KEY (mascota) REFERENCES animal(idanimal)
+);
+
+CREATE TABLE perfil (
+    idperfil  INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    nombre    TEXT,
+    apellido  TEXT,
+    telefono  INTEGER,
+    mail      TEXT,
+    mascota   INTEGER,
+    FOREIGN KEY (mascota) REFERENCES animal(idanimal)
+);
+
+CREATE TABLE consultas (
+    idconsulta   INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    nombre       INTEGER,
+    descripcion  TEXT,
+    FOREIGN KEY (nombre) REFERENCES perfil(idperfil)
+);
+
+CREATE TABLE historial_medico (
+    idhistorial      INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    mascota          INTEGER,
+    turnos_pasados   TEXT,
+    vacunas          TEXT,
+    FOREIGN KEY (mascota) REFERENCES animal(idanimal)
+);

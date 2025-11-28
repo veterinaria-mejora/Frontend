@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adopciones</title>
+    <link rel="stylesheet" href="/frontend/styles/styles.css">
+    <link rel="stylesheet" href="adopciones-css.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo"><i class="fa-solid fa-paw"></i> VetCarruseles</div>
+      <ul>
+        <li><a href="/frontend/vistas/index.html">Inicio</a></li>
+        <li><a href="/frontend/vistas/tienda/tienda.html">Tienda</a></li>
+        <li><a href="/frontend/vistas/agregarMascota/mascota.html">Mis Mascotas</a></li>
+      </ul>
+    </nav>
+  </header>
+
+    <main class="container">
+        <section class="controls">
+            <label for="search" class="visually-hidden">Buscar</label>
+            <input id="search" type="search" placeholder="Buscar por nombre, raza o edad..." />
+            <select id="filter-age" aria-label="Filtrar por edad">
+                <option value="">Todas las edades</option>
+                <option value="baby">Cachorro</option>
+                <option value="adult">Adulto</option>
+                <option value="senior">Senior</option>
+            </select>
+        </section>
+
+        <section class="grid" id="dogs">
+            <!-- Sample dog card -->
+            <article class="dog-card">
+                <img src="/src/img/mestizo.png"/>
+                <div class="card-body">
+                    <h2 class="dog-name">Bruno</h2>
+                    <p class="meta">3 años • Mestizo • Madrid</p>
+                    <p class="desc">Bruno es juguetón, cariñoso y se lleva bien con otros perros. Le encanta pasear y los premios.</p>
+                    <div class="card-actions">
+                        <button class="btn adopt">Adoptar</button>
+                        <button class="btn details">Ver detalles</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="dog-card">
+                <img src="/src/img/labrador.png" alt="Luna, perra tranquila" />
+                <div class="card-body">
+                    <h2 class="dog-name">Luna</h2>
+                    <p class="meta">1 año • Labrador • Barcelona</p>
+                    <p class="desc">Luna es tranquila y obediente. Perfecta para familias o personas activas que disfruten de largas caminatas.</p>
+                    <div class="card-actions">
+                        <button class="btn adopt">Adoptar</button>
+                        <button class="btn details">Ver detalles</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="dog-card">
+                <img src="/src/img/podenco.png" alt="Kira, perra enérgica" />
+                <div class="card-body">
+                    <h2 class="dog-name">Kira</h2>
+                    <p class="meta">5 meses • Podenco • Sevilla</p>
+                    <p class="desc">Kira es una cachorra llena de energía que aprende rápido. Ideal para hogares que puedan dedicar tiempo a su entrenamiento.</p>
+                    <div class="card-actions">
+                        <button class="btn adopt">Adoptar</button>
+                        <button class="btn details">Ver detalles</button>
+                    </div>
+                </div>
+            </article>
+
+        </section>
+    </main>
+</body>
+</html>

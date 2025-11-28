@@ -1,0 +1,32 @@
+{
+  "name": "veterinaria-proyecto",
+  "version": "1.0.0",
+  "description": "Proyecto Veterinaria - Monorepo",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install && cd Backend && npm install && cd ../frontend && npm install",
+    "build": "npm run build --prefix Backend && npm run build --prefix frontend",
+    "build:backend": "npm run build --prefix Backend",
+    "build:frontend": "npm run build --prefix frontend",
+    "watch:backend": "npm run watch --prefix Backend",
+    "watch:frontend": "npm run watch --prefix frontend",
+    "start": "npm start --prefix Backend",
+    "dev": "npm run dev --prefix Backend",
+    "dev:all": "npm run watch --prefix frontend & npm run dev --prefix Backend"
+  },
+  "workspaces": [
+    "Backend",
+    "frontend"
+  ],
+  "dependencies": {
+    "@prisma/client": "^6.19.0",
+    "connect-pg-simple": "^10.0.0",
+    "dotenv": "^17.2.3",
+    "express-session": "^1.18.2",
+    "prisma": "^6.19.0"
+  },
+  "devDependencies": {
+    "@types/connect-pg-simple": "^7.0.3",
+    "@types/express-session": "^1.18.2"
+  }
+}

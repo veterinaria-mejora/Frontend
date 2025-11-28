@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="../../styles/loginStyles.css">
+</head>
+<body>
+
+  <h2>Login</h2>
+
+  <div class="login-container">
+    <form id="loginForm">
+
+      <label>Email:</label>
+      <input type="email" id="email" required><br>
+
+      <label>Contrasena:</label>
+      <input type="password" id="password" required><br>
+
+      <button type="submit" class="login-btn">Ingresar</button>
+    </form>
+
+    <button id="forgotBtn" class="forgot-btn">Recuperar contraseña</button>
+
+    <!-- 🔵 BOTÓN NUEVO -->
+    <button id="goRegister" class="register-btn">Crear cuenta</button>
+
+    <p id="msg"></p>
+  </div>
+
+  <script>
+    const API = "http://localhost:3001";
+    const TARGETS = {
+      user: "/frontend/vistas/index.html",
+      admin: "/frontend/vistas/admin.html",
+      doctor: "/frontend/vistas/doc.html",
+    };
+
+    // LOGIN
+    document.getElementById("loginForm").addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const body = { email, password };
+      console.log("Enviando datos de login:", body);
+      const res = await fetch(`${API}/api/login`, { 
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        credentials: "include",
+        body: JSON.stringify({email, password})
+      });
+      const data = await res.json();
+
+      if(data.ok){
+        // prefer role-based redirect; fallback to user home
+        const role = data.data?.role || 'user';
+        const target = TARGETS[role] || TARGETS.user;
+        window.location.href = target;
+      } else {
+        document.getElementById("msg").textContent = data.error || "Credenciales invalidas";
+      }
+    });
+
+    // RECUPERAR CONTRASEÑA
+    document.getElementById("forgotBtn").addEventListener("click", async ()=>{
+      const email = document.getElementById("email").value.trim();
+      if(!email){alert("Ingresa un email primero"); return;}
+
+      const res = await fetch(API + "/api/forgot-password", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({email})
+      });
+
+      await res.json();
+      alert("Si existe una cuenta con ese email, se envio el link de recuperacion.");
+    });
+
+    // 🔵 IR A REGISTRO
+    document.getElementById("goRegister").addEventListener("click", ()=>{
+      window.location.href = "../register/register.html";
+    });
+  </script>
+
+</body>
+</html>

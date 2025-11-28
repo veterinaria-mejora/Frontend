@@ -1,0 +1,167 @@
+:root {
+    --verde: #0a5132;
+    --verde-claro: #e8f6ef;
+    --beige: #f5efe6;
+    --acento: #f29d59;
+    --gris: #f0f2f1;
+    --sombra: rgba(0, 0, 0, 0.12);
+    font-family: "Arial", sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+#encabezado {
+    background: var(--verde);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 32px
+}
+
+header {
+  background: #00B8D9;
+  padding: 8px 0;
+  width: 100%;
+  margin-bottom: 80px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  color: #1E5F4C;
+  font-weight: bold;
+}
+
+.logo i {
+  color: #1E5F4C;
+  margin-right: 8px;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--texto);
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: var(--acento);
+}
+h1 {
+  text-align: center;
+  margin-top: 30px;
+  color: #333;
+}
+
+.usuarios-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 30px;
+}
+
+.usuario-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  width: 220px;
+  padding: 20px;
+  text-align: center;
+}
+
+.usuario-card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.usuario-card h2 {
+  margin: 10px 0 5px;
+  font-size: 18px;
+}
+
+.usuario-card p {
+  color: #666;
+  font-size: 14px;
+}
+
+a {
+  text-align: center;
+  color: #E0F7FA;
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+
+/* ========= RESPONSIVE ========= */
+
+/* Tablets */
+@media (max-width: 900px) {
+  header nav {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+
+  nav ul {
+    gap: 10px;
+  }
+
+  .usuarios-container {
+    padding: 20px;
+  }
+}
+
+/* Celulares */
+@media (max-width: 600px) {
+  header nav {
+    padding: 15px 10px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .usuario-card {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .usuarios-container {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+}
