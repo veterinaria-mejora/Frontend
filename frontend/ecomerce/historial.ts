@@ -1,4 +1,4 @@
-import { Producto } from "./producto";
+import { Producto } from "./producto.js";
 
 export interface Compra {
   id: number; // identificador único de la compra

@@ -4,18 +4,14 @@
   "description": "Proyecto Veterinaria - Monorepo",
   "private": true,
   "scripts": {
-    "install:all": "npm install && cd Backend && npm install && cd ../frontend && npm install",
-    "build": "npm run build --prefix Backend && npm run build --prefix frontend",
-    "build:backend": "npm run build --prefix Backend",
-    "build:frontend": "npm run build --prefix frontend",
-    "watch:backend": "npm run watch --prefix Backend",
-    "watch:frontend": "npm run watch --prefix frontend",
-    "start": "npm start --prefix Backend",
-    "dev": "npm run dev --prefix Backend",
-    "dev:all": "npm run watch --prefix frontend & npm run dev --prefix Backend"
-  },
+  "build": "npm run build --prefix frontend",
+  "start": "node server.js",
+  "dev": "nodemon server.js"
+},
+
+"type": "module",
+
   "workspaces": [
-    "Backend",
     "frontend"
   ],
   "dependencies": {
