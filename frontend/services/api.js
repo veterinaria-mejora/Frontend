@@ -106,11 +106,17 @@ class ApiClient {
             method: "DELETE",
         });
     }
-    async clearCart() {
+    async clearCart() { 
         return this.request("/api/cart", {
             method: "DELETE",
         });
     }
+    async buyCart() { 
+        return this.request("/api/payments/create-preference", {
+            method: "POST",
+        });
+    }
+    
     // ============ CUPONES ============
     async getCoupons() {
         return this.request("/api/coupons");
@@ -132,6 +138,7 @@ class ApiClient {
             method: "DELETE",
         });
     }
+
     // ============ ADOPCIONES ============
     async getPets() {
         return this.request("/api/pets");

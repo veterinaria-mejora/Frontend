@@ -3,6 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import path from "path";
 import { fileURLToPath } from "url";
+import {MercadoPagoConfig, Preference } from 'mercadopago'; 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,6 +19,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Serve static files from the frontend directory
 app.use(express.static(path.join(__dirname, "frontend")));
 app.use(express.static(path.join(__dirname, "frontend", "vistas")));
+// Also allow requests that include the `/frontend` prefix (matches HTML links)
+app.use('/frontend', express.static(path.join(__dirname, 'frontend')));
 
 // Mock data storage
 let pets = [
@@ -40,7 +43,7 @@ let cart = {};
 let petIdCounter = 4;
 let appointmentIdCounter = 1;
 
-// ============ AUTH ROUTES ============
+// ============ AUTH ============
 app.post("/api/login", (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -108,7 +111,7 @@ app.post("/api/reset-password", (req, res) => {
   });
 });
 
-// ============ PRODUCTS ROUTES ============
+// ============ PRODUCTOS ============
 app.get("/api/products", (req, res) => {
   res.json({ ok: true, data: products });
 });
@@ -121,7 +124,7 @@ app.get("/api/products/:id", (req, res) => {
   res.json({ ok: true, data: product });
 });
 
-// ============ CART ROUTES ============
+// ============ CARRITO ============
 app.get("/api/cart", (req, res) => {
   const userId = req.headers["user-id"] || "default";
   res.json({ ok: true, data: cart[userId] || [] });
@@ -181,7 +184,17 @@ app.delete("/api/cart", (req, res) => {
   res.json({ ok: true, data: [] });
 });
 
-// ============ COUPONS ROUTES ============
+app.post("/api/payments/create-preference", (req, res) => {
+  res.json({
+    ok: true,
+    data: {
+      init_point: "https://www.mercadopago.com/init-mock",
+      sandbox_init_point: "https://link.mercadopago.com.ar/veterinariacarriles"
+    }
+  });
+});
+
+// ============ CUPONES ============
 app.get("/api/coupons", (req, res) => {
   res.json({ ok: true, data: coupons });
 });
@@ -220,7 +233,7 @@ app.delete("/api/coupons/:code", (req, res) => {
   res.json({ ok: true, data: { message: "Coupon deleted" } });
 });
 
-// ============ PETS/ADOPTIONS ROUTES ============
+// ============ ADOPCIONES ============
 app.get("/api/pets", (req, res) => {
   res.json({ ok: true, data: pets });
 });
