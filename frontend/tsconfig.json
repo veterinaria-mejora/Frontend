@@ -11,7 +11,7 @@
     "lib": ["ES2020", "DOM"],
   "types": []
   },
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "ecomerce/historial.js", "ecomerce/carrito.js", "models/Carrito.js", "ecomerce/producto.js", "pages/adopciones.js", "models/Producto.js", "pages/login.js", "pages/cupones.js", "pages/register.js", "pages/pago.js", "pages/tienda.js", "pages/reset2.js", "services/cartService.js", "services/api.js"],
   "exclude": ["node_modules", "dist"]
 }
 
