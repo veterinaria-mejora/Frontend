@@ -1,6 +1,6 @@
 import { PrismaClient } from "../generated/prisma/client";
 
-const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
+const globalForPrisma = globalThis;
 
 export const prisma =
   globalForPrisma.prisma ||
@@ -9,7 +9,7 @@ export const prisma =
   });
 
 // Habilitar foreign keys en SQLite (importante para relaciones)
-if (process.env.DATABASE_URL?.includes("sqlite")) {
+if (process.env.DATABASE_URL && process.env.DATABASE_URL.includes("sqlite")) {
   prisma.$executeRaw`PRAGMA foreign_keys = ON;`.catch(() => {
     // Ignorar errores si ya está habilitado
   });
