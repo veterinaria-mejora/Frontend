@@ -1,0 +1,138 @@
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #F8FAF9;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  background: #FF9F43;
+  padding: 8px 0;
+  width: 100%;
+  margin-bottom: 80px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  color: var(--encabezado);
+  font-weight: bold;
+}
+
+.logo i {
+  color: var(--acento);
+  margin-right: 8px;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--texto);
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: var(--acento);
+}
+
+h1 {
+  text-align: center;
+  color: white;
+}
+
+form {
+  background: #c0c0c0;
+  border-radius: 20px;
+  border-color: #000000;
+  border: 2px solid;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.2rem;
+}
+
+input {
+  padding: 0.8rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+button {
+  background-color: #FF9F43;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  margin: 5px;
+  padding: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #FFC97E;
+}
+
+a {
+  text-decoration: none;
+  color: #FFE0B2;
+  text-align: center;
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+#inicio {
+  background-color: #FFE0B2;
+  display: block;
+  width: 100vw;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 100px;
+}
+
+.register-btn {
+  margin-top: 10px;
+  background-color: #ffa64d;
+  border: 1px solid black;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.register-btn:hover {
+  background-color: #ffb366;
+}

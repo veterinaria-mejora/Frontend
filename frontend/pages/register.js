@@ -10,9 +10,10 @@ function qs(sel) {
 }
 document.addEventListener("DOMContentLoaded", () => {
     const form = qs("#registerForm");
+    const regex = /^[^\s@]+@gmail\.com$/i;
     const nameInput = qs("#name");
     const lastnameInput = qs("#lastname");
-    const emailInput = qs("#email");    
+    const emailInput = qs("#email");
     const passwordInput = qs("#password");
     const msgEl = qs("#msg");
     form.addEventListener("submit", async (e) => {
@@ -22,6 +23,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const lastname = lastnameInput.value.trim();
         const email = emailInput.value.trim();
         const password = passwordInput.value;
+
+        function isValidEmail(email) {
+            return regex.test(email);
+        }
+
+        if (!isValidEmail(email)) {
+            document.getElementById("msg").textContent = "Email inválido";
+            return;  
+        }
+
         if (!email || !password) {
             msgEl.textContent = "Completa email y contrasena";
             return;
