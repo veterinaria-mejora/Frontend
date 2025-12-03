@@ -1,205 +1,213 @@
-/**
- * Página de Adopciones - Lógica del cliente
- */
-import { api } from "../services/api.js";
-function qs(sel) {
-    const el = document.querySelector(sel);
-    if (!el)
-        throw new Error(`Elemento no encontrado: ${sel}`);
-    return el;
-}
-const listaMascotasEl = qs("#listaMascotas");
-const listaAdopcionesEl = qs("#listaAdopciones");
-const formulario = qs("#formularioAgregar");
-const inputNombre = qs("#inputNombre");
-const inputEspecie = qs("#inputEspecie");
-const inputFoto = qs("#inputFoto");
-const inputAdoptable = qs("#inputAdoptable");
-const filtroAdoptables = qs("#filtroAdoptables");
-const avisoPerfil = qs("#avisoPerfil");
-let mascotas = [];
-function escapeHtml(s) {
-    return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c] || c));
-}
+import { service } from "../services/api.js";
+
+// ======================================================================
+// REFERENCIAS DEL DOM
+// ======================================================================
+const listaMascotas = document.getElementById("listaMascotas");
+const listaAdopciones = document.getElementById("listaAdopciones");
+const avisoPerfil = document.getElementById("avisoPerfil");
+
+const motivo = document.getElementById("motivo");
+const btnSolicitar = document.getElementById("btnSolicitar");
+
+const form = document.getElementById("formularioAgregar");
+const btnLimpiar = document.getElementById("btnLimpiar");
+
+const inputNombre = document.getElementById("inputNombre");                                     
+const inputTipo = document.getElementById("inputTipo");
+const inputRaza = document.getElementById("inputRaza");
+const inputEdad = document.getElementById("inputEdad");
+const inputEspecie = document.getElementById("inputEspecie");
+const inputFoto = document.getElementById("inputFoto");
+const inputAdoptable = document.getElementById("inputAdoptable");
+
+const filtroAdoptables = document.getElementById("filtroAdoptables");
+
+// mascota seleccionada para consulta
+let mascotaSeleccionada = null;
+
+// ======================================================================
+// CARGAR MASCOTAS AL INICIAR
+// ======================================================================
+window.addEventListener("DOMContentLoaded", async () => {
+    await cargarMascotas();
+});
+
+// ======================================================================
+// FUNCIÓN PRINCIPAL: CARGAR MASCOTAS
+// ======================================================================
 async function cargarMascotas() {
     try {
-        const response = await api.getPets();
-        if (response.ok && response.data) {
-            mascotas = response.data;
+        const response = await service.register();
+        const data = response.data.formatted;
+
+        listaMascotas.innerHTML = "";
+        listaAdopciones.innerHTML = "";
+
+        if (!data || data.length === 0) {
+            avisoPerfil.style.display = "block";
+            return;
         }
-        else {
-            console.warn("No se pudieron cargar las mascotas:", response.error);
-            mascotas = [];
-        }
-    }
-    catch (err) {
-        console.error("Error al cargar mascotas:", err);
-        mascotas = [];
-    }
-    actualizarVistas();
-}
-function renderizarSelector(lista) {
-    listaMascotasEl.innerHTML = "";
-    if (lista.length === 0) {
-        avisoPerfil.style.display = "block";
-    }
-    else {
+
         avisoPerfil.style.display = "none";
-    }
-    for (const m of lista) {
-        const div = document.createElement("div");
-        div.className = "mascota";
-        div.dataset.id = m.id;
-        const img = document.createElement("img");
-        img.src = m.foto && m.foto.trim() !== "" ? m.foto : `https://via.placeholder.com/120x78?text=${encodeURIComponent(m.nombre)}`;
-        const name = document.createElement("small");
-        name.textContent = m.nombre;
-        div.appendChild(img);
-        div.appendChild(name);
-        div.addEventListener("click", () => {
-            const previo = listaMascotasEl.querySelector(".mascota.seleccionada");
-            if (previo)
-                previo.classList.remove("seleccionada");
-            div.classList.add("seleccionada");
+
+        data.forEach((mascota) => {
+            renderMascotaSelector(mascota);
+            renderMascotaAdopcion(mascota);
         });
-        listaMascotasEl.appendChild(div);
+    } catch (e) {
+        console.log("Error al cargar mascotas:", e);
     }
 }
-function renderizarAdopciones(lista) {
-    listaAdopcionesEl.innerHTML = "";
-    if (lista.length === 0) {
-        const p = document.createElement("div");
-        p.textContent = "No hay animales para mostrar.";
-        listaAdopcionesEl.appendChild(p);
+
+// ======================================================================
+// MOSTRAR MASCOTAS EN LA COLUMNA IZQUIERDA (SELECTOR)
+// ======================================================================
+function renderMascotaSelector(m) {
+    const card = document.createElement("div");
+
+    card.className = "miniMascota";
+    card.style.cursor = "pointer";
+    card.style.display = "inline-flex";
+    card.style.alignItems = "center";
+    card.style.gap = "8px";
+    card.style.padding = "8px 12px";
+    card.style.margin = "4px";
+    card.style.background = "#e6f4ec";
+    card.style.borderRadius = "6px";
+
+    card.innerHTML = `
+        <img src="${m.imagen_m || "https://img.freepik.com/vector-premium/kit-medico-accesorios_24640-56132.jpg"}" 
+             width="40" 
+             height="40"
+             style="border-radius:50%; object-fit:cover;">
+        <span>${m.nombre}</span>
+    `;
+
+    // Registrar clic para seleccionar
+    card.addEventListener("click", () => {
+        console.log(mascotaSeleccionada)
+        mascotaSeleccionada = m;
+        console.log(mascotaSeleccionada)
+        marcarSeleccion(card);
+    });
+
+    listaMascotas.appendChild(card);
+}
+
+const eliminar = document.getElementById("btnLimpiar");
+
+eliminar.addEventListener("click", async () => {
+    if (!mascotaSeleccionada) {
+        console.log("No hay ninguna mascota seleccionada");
         return;
     }
-    for (const m of lista) {
-        const item = document.createElement("div");
-        item.className = "cardAdop";
-        item.dataset.id = m.id;
-        const img = document.createElement("img");
-        img.src = m.foto && m.foto.trim() !== "" ? m.foto : `https://via.placeholder.com/120x78?text=${encodeURIComponent(m.nombre)}`;
-        const info = document.createElement("div");
-        info.style.flex = "1";
-        info.innerHTML = `<strong>${escapeHtml(m.nombre)}</strong><br><small>${escapeHtml(m.especie)} ${m.adoptable ? "• Adoptable" : ""}</small>`;
-        const acciones = document.createElement("div");
-        acciones.style.display = "flex";
-        acciones.style.gap = "6px";
-        const btnEliminar = document.createElement("button");
-        btnEliminar.textContent = "Eliminar";
-        btnEliminar.className = "boton";
-        btnEliminar.addEventListener("click", () => {
-            eliminarMascota(m.id);
-        });
-        acciones.appendChild(btnEliminar);
-        item.appendChild(img);
-        item.appendChild(info);
-        item.appendChild(acciones);
-        listaAdopcionesEl.appendChild(item);
+
+    try {
+        const response = await service.deletePet(mascotaSeleccionada.id);
+
+        console.log("Mascota eliminada:", response.data);
+
+        // Quitar de la interfaz
+        cargarMascotas();   // recarga el listado
+        mascotaSeleccionada = null;
+    } catch (err) {
+        console.error("Error eliminando mascota:", err);
     }
+});
+
+
+
+function marcarSeleccion(card) {
+    const todas = listaMascotas.querySelectorAll(".miniMascota");
+    todas.forEach((c) => {
+        c.style.border = "2px solid transparent";
+        c.style.background = "#e6f4ec";
+    });
+
+    card.style.border = "2px solid #007bff";
+    card.style.background = "#d6ebff";
 }
-async function agregarMascotaDesdeFormulario(ev) {
-    if (ev)
-        ev.preventDefault();
-    const nombre = inputNombre.value.trim();
-    const especie = inputEspecie.value.trim();
-    const foto = inputFoto.value.trim();
+
+// ======================================================================
+// MOSTRAR MASCOTAS EN LA COLUMNA DERECHA (LISTA FILTRABLE)
+// ======================================================================
+function renderMascotaAdopcion(m) {
+    const lista = document.createElement("div");
+    lista.className = "animalItem";
+    lista.dataset.adoptable = m.adoptable ? "1" : "0";
+
+    lista.innerHTML = `
+        <h4>${m.nombre}</h4>
+        <p>${m.tipo} - ${m.raza}</p>
+        <p>Edad: ${m.edad}</p>
+        <p>Adoptable: ${m.adoptable ? "Sí" : "No"}</p>
+    `;
+
+    listaAdopciones.appendChild(lista);
+    aplicarFiltro();
+}
+
+// ======================================================================
+// FILTRO DE "VER SOLO ADOPTABLES"
+// ======================================================================
+filtroAdoptables.addEventListener("change", () => aplicarFiltro());
+
+function aplicarFiltro() {
+    const items = listaAdopciones.querySelectorAll(".animalItem");
+
+    items.forEach((i) => {
+        if (filtroAdoptables.checked) {
+            i.dataset.adoptable === "1"
+                ? (i.style.display = "block")
+                : (i.style.display = "none");
+        } else {
+            i.style.display = "block";
+        }
+    });
+}
+
+// ======================================================================
+// AGREGAR MASCOTA
+// ======================================================================
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const nombre = inputNombre.value;
+    const tipo = inputTipo.value;
+    const raza = inputRaza.value;
+    const edad = Number(inputEdad.value);
+    const especie = inputEspecie.value;
+    const foto = inputFoto.value;
     const adoptable = inputAdoptable.checked;
-    if (!nombre || !especie) {
-        alert("Completa nombre y especie");
-        return;
-    }
+
     try {
-        const response = await api.createPet({ nombre, especie, foto, adoptable });
-        if (response.ok) {
-            limpiarFormulario();
-            await cargarMascotas();
-        }
-        else {
-            alert("Error al agregar mascota: " + (response.error || "Error desconocido"));
-        }
+        const response = await service.addPet(
+            nombre,
+            tipo,
+            raza,
+            edad,
+            especie,
+            foto,
+            adoptable
+        );
+
+        console.log("Mascota agregada:", response.data);
+
+        form.reset();
+        await cargarMascotas();
+    } catch (e) {
+        console.log("Error al agregar mascota:", e);
     }
-    catch (err) {
-        alert("Error al agregar mascota: " + (err.message || "Error desconocido"));
-    }
-}
-async function eliminarMascota(id) {
-    const mascota = mascotas.find(m => m.id === id);
-    if (!mascota)
-        return;
-    const ok = confirm(`Eliminar a ${mascota.nombre}?`);
-    if (!ok)
-        return;
-    try {
-        const response = await api.deletePet(id);
-        if (response.ok) {
-            await cargarMascotas();
-        }
-        else {
-            alert("Error al eliminar mascota: " + (response.error || "Error desconocido"));
-        }
-    }
-    catch (err) {
-        alert("Error al eliminar mascota: " + (err.message || "Error desconocido"));
-    }
-}
-function obtenerListaFiltrada() {
-    if (filtroAdoptables.checked) {
-        return mascotas.filter(m => m.adoptable);
-    }
-    return mascotas.slice();
-}
-function actualizarVistas() {
-    const lista = obtenerListaFiltrada();
-    renderizarSelector(lista);
-    renderizarAdopciones(lista);
-}
-function limpiarFormulario() {
-    inputNombre.value = "";
-    inputEspecie.value = "";
-    inputFoto.value = "";
-    inputAdoptable.checked = false;
-}
-async function iniciarApp() {
-    await cargarMascotas();
-    formulario.addEventListener("submit", (e) => {
-        agregarMascotaDesdeFormulario(e);
-    });
-    const btnLimpiar = qs("#btnLimpiar");
-    btnLimpiar.addEventListener("click", () => {
-        limpiarFormulario();
-    });
-    filtroAdoptables.addEventListener("change", () => {
-        actualizarVistas();
-    });
-    const btnSolicitar = qs("#btnSolicitar");
-    const motivoEl = qs("#motivo");
-    btnSolicitar.addEventListener("click", async () => {
-        const seleccionado = listaMascotasEl.querySelector(".mascota.seleccionada");
-        const motivo = motivoEl.value.trim();
-        if (!seleccionado) {
-            alert("Seleccioná una mascota antes de solicitar la consulta.");
-            return;
-        }
-        const id = seleccionado.dataset.id;
-        const mascota = mascotas.find(m => m.id === id);
-        if (!mascota) {
-            alert("Mascota no encontrada.");
-            return;
-        }
-        try {
-            const response = await api.createAppointment({ petId: mascota.id, motivo });
-            if (response.ok) {
-                alert("Consulta registrada para " + mascota.nombre + ".");
-                motivoEl.value = "";
-            }
-            else {
-                alert("Error al registrar consulta: " + (response.error || "Error desconocido"));
-            }
-        }
-        catch (err) {
-            alert("Error al registrar consulta: " + (err.message || "Error desconocido"));
-        }
-    });
-}
-document.addEventListener("DOMContentLoaded", iniciarApp);
+});
+
+// ======================================================================
+// LIMPIAR FORMULARIO
+// ======================================================================
+btnLimpiar.addEventListener("click", () => {
+    form.reset();
+});
+
+// ======================================================================
+// LOS GRAFICOS WILLY!!!!
+// ======================================================================

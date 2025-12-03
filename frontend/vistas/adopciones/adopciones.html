@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <title>Veterinaria - Consulta</title>
   <link rel="stylesheet" href="/frontend/styles/adopciones.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -30,19 +31,14 @@
         <div id="avisoPerfil">No tenés mascotas registradas. Agrega una mascota desde el formulario.</div>
       </div>
 
-      <div id="solicitar">
-        <h3>Solicitar consulta</h3>
-        <label>Motivo:</label>
-        <textarea id="motivo" rows="4"></textarea>
-        <button id="btnSolicitar" class="boton">Enviar consulta</button>
-      </div>
-    </section>
-
     <aside id="derecha">
       <div id="panelAgregar" class="tarjeta">
         <h3>Gestionar mascotas</h3>
         <form id="formularioAgregar">
           <input id="inputNombre" placeholder="Nombre" required />
+          <input id="inputTipo" placeholder="Tipo" required/>
+          <input id="inputRaza" placeholder="Raza" required/>
+          <input id="inputEdad" placeholder="Edad" required/> 
           <input id="inputEspecie" placeholder="Especie" required />
           <input id="inputFoto" placeholder="URL foto (opcional)" />
           <label class="filaFiltro">
