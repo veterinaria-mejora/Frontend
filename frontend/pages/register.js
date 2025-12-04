@@ -1,14 +1,15 @@
-/**
- * Página de Registro - Lógica del cliente
- */
 import { api } from "../services/api.js";
+import authGuard from "./authprovider.js"
+
 function qs(sel) {
     const el = document.querySelector(sel);
     if (!el)
         throw new Error(`Elemento no encontrado: ${sel}`);
     return el;
 }
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    const ok = await authGuard()
+    if (!ok) return
     const form = qs("#registerForm");
     const regex = /^[^\s@]+@gmail\.com$/i;
     const nameInput = qs("#name");

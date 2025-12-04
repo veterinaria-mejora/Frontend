@@ -1,14 +1,20 @@
-
-import {service} from "./services/api.js"
+import service from "./services/api.js"
+import authGuard from "./authprovider.js"
 
 const tag = document.getElementById("hola")
 const tag2 = document.getElementById("hola2")
-const button = document.getElementById("2")
-window.addEventListener("DOMContentLoaded",async (event)=>{
+const button = document.getElementById("1")
+window.addEventListener("DOMContentLoaded", async (_event)=>{
+
+    const ok = await authGuard()
+    if (!ok) return
     const respose = await service.register()
-    const data = await respose.data.formatted
+
+    const data = respose.data.formatted
+    
     console.log(data)
     console.log(respose)
+
     data.forEach(element => {
         const p = document.createElement("p")
         p.innerText = element.raza
@@ -17,7 +23,7 @@ window.addEventListener("DOMContentLoaded",async (event)=>{
     });
 })
 
-button.addEventListener("click",async (Event)=>{
+button.addEventListener("click",async (_Event)=>{
     const input = document.getElementById("1")
     const input1 = document.getElementById("3")
     const input2 = document.getElementById("4")

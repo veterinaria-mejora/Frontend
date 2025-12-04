@@ -2,6 +2,14 @@
  * Página de Gestión de Cupones - Lógica del cliente
  */
 import { couponService } from "../services/couponService.js";
+import authGuard from "./authprovider.js"
+
+
+window.addEventListener("DOMContentLoaded", async (_event)=>{
+    const ok = await authGuard()
+    if (!ok) return
+    await mostrarCupones()
+})
 function qs(sel) {
     const el = document.querySelector(sel);
     if (!el)
@@ -49,6 +57,3 @@ if (formAgregarCupon && inputNuevoCupon && mensajeCupon) {
         }
     });
 }
-document.addEventListener("DOMContentLoaded", async () => {
-    await mostrarCupones();
-});

@@ -1,37 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <link rel="stylesheet" href="../../styles/loginStyles.css">
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="../../styles/loginStyles.css">
+    <script type="module" src="/frontend/pages/login.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
+    <h2>Login</h2>
 
-  <h2>Login</h2>
+    <div class="login-container">
+        <form id="loginForm">
 
-  <div class="login-container">
-    <form id="loginForm">
+        <label>Email:</label>
+        <input type="email" id="email" required><br>
 
-      <label>Email:</label>
-      <input type="email" id="email" required><br>
+        <label>Contrasena:</label>
+        <input type="password" id="password" required><br>
 
-      <label>Contrasena:</label>
-      <input type="password" id="password" required><br>
+        <button type="submit" class="login-btn">Ingresar</button>
+        </form>
 
-      <button type="submit" class="login-btn">Ingresar</button>
-    </form>
+        <a href="/frontend/vistas/recuperarContraseña/recuperarContraseña.html">
+        <button id="forgotBtn" class="forgot-btn">Recuperar contraseña</button>
+        </a>
 
-    <a href="/frontend/vistas/recuperarContraseña/recuperarContraseña.html">
-    <button id="forgotBtn" class="forgot-btn">Recuperar contraseña</button>
-    </a>
+        
+        <button id="goRegister" class="register-btn">Crear cuenta</button>
+
+        <p id="msg"></p>
+    </div>
 
     
-    <button id="goRegister" class="register-btn">Crear cuenta</button>
-
-    <p id="msg"></p>
-  </div>
-
- <script type="module" src="/frontend/pages/login.js"></script>
 
 </body>
 </html>

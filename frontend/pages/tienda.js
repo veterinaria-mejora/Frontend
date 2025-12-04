@@ -4,6 +4,8 @@
 import { Producto } from "../models/Producto.js";
 import { cartService } from "../services/cartService.js";
 import { couponService } from "../services/couponService.js";
+import authGuard from "./authprovider.js"
+
 function qs(sel) {
     const el = document.querySelector(sel);
     if (!el)
@@ -132,7 +134,9 @@ btnAplicarCupon.addEventListener("click", async () => {
     renderCarrito();
 });
 // Inicializar vista
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    const ok = await authGuard()
+    if (!ok) return
     loadProducts();
     renderCarrito();
     // Verificar si hay mensaje de pago en la URL

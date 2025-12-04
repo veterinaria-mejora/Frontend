@@ -3,13 +3,17 @@
  */
 import { cartService } from "../services/cartService.js";
 import { couponService } from "../services/couponService.js";
+import authGuard from "./authprovider.js"
+
 function qs(sel) {
     const el = document.querySelector(sel);
     if (!el)
         throw new Error(`Elemento no encontrado: ${sel}`);
     return el;
 }
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    const ok = await authGuard()
+    if (!ok) return
     const form = qs("#compraForm");
     const resultado = qs("#resultado");
     const cuponInput = qs("#cupon");

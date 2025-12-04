@@ -1,49 +1,41 @@
-const API = "http://localhost:3001";
-const TARGETS = {
-  user: "/frontend/vistas/index.html",
-  admin: "/frontend/vistas/admin.html",
-  doctor: "/frontend/vistas/doc.html",
-};
+import service  from "../services/api.js";
 
-// 🔵 LOGIN
+
+const regex = /^[^\s@]+@gmail\.com$/i
+
+
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  const regex = /^[^\s@]+@gmail\.com$/i;
-
-  function isValidEmail(email) {
-  return regex.test(email);
-}
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
 
 
-  // 🔥 VALIDACIÓN ANTES DEL FETCH — DETIENE EL LOGIN
-  if (!isValidEmail(email)) {
-    document.getElementById("msg").textContent = "Email inválido";
-    return;  // ← ACÁ SE CORTA TODO. NO SE LLEGA AL FETCH.
-  }
+    if (!isValidEmail(email)) {
+        document.getElementById("msg").textContent = "Email inválido"
+        return
+    }
 
-  // Si es válido, continúa el login normalmente
-  const res = await fetch(`${API}/api/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({ email, password })
-  });
-
-  const data = await res.json();
-
-  if (data.ok) {
-    const role = data.data?.role || "user";
-    const target = TARGETS[role] || TARGETS.user;
-    window.location.href = target;
-  } else {
-    document.getElementById("msg").textContent =
-      data.error || "Credenciales inválidas";
-  }
+    const res = await service.login(email, password)
+    console.log(res)
+    const data = res.data
+    console.log(data)
+    if (data.ok) {
+        const role = data.data.role 
+        const id = data.data.id
+        console.log(role)
+        console.log(id)
+    }
+    localStorage.setItem("data",JSON.stringify(data))
+    
+    console.log(JSON.parse(localStorage.getItem("data")))
 });
 // IR A REGISTRO
 document.getElementById("goRegister").addEventListener("click", () => {
-  window.location.href = "../register/register.html";
+    window.location.href = "../register/register.html";
 });
+
+
+function isValidEmail(email) {
+    return regex.test(email);
+}

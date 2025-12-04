@@ -1,8 +1,6 @@
-import { service } from "../services/api.js";
+import service from "../services/api.js";
+import authGuard from "./authprovider.js"
 
-// ======================================================================
-// REFERENCIAS DEL DOM
-// ======================================================================
 const listaMascotas = document.getElementById("listaMascotas");
 const listaAdopciones = document.getElementById("listaAdopciones");
 const avisoPerfil = document.getElementById("avisoPerfil");
@@ -23,15 +21,15 @@ const inputAdoptable = document.getElementById("inputAdoptable");
 
 const filtroAdoptables = document.getElementById("filtroAdoptables");
 
-// mascota seleccionada para consulta
+
 let mascotaSeleccionada = null;
 
-// ======================================================================
-// CARGAR MASCOTAS AL INICIAR
-// ======================================================================
+
 window.addEventListener("DOMContentLoaded", async () => {
-    await cargarMascotas();
-});
+    const ok = await authGuard()
+    if (!ok) return
+    await cargarMascotas()
+})
 
 // ======================================================================
 // FUNCIÓN PRINCIPAL: CARGAR MASCOTAS
