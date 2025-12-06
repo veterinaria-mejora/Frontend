@@ -1,5 +1,5 @@
 import service from "../services/api.js";
-import authGuard from "./authprovider.js"
+import authGuard from "../authprovider.js"
 
 const listaMascotas = document.getElementById("listaMascotas");
 const listaAdopciones = document.getElementById("listaAdopciones");

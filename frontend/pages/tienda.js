@@ -1,156 +1,182 @@
-/**
- * Página de Tienda - Lógica del cliente
- */
-import { Producto } from "../models/Producto.js";
-import { cartService } from "../services/cartService.js";
-import { couponService } from "../services/couponService.js";
-import authGuard from "./authprovider.js"
+import service from "../services/api.js";
+import authGuard from "../authprovider.js";
 
-function qs(sel) {
-    const el = document.querySelector(sel);
-    if (!el)
-        throw new Error(`Elemento no encontrado: ${sel}`);
-    return el;
-}
-// Obtiene elementos del DOM
-const listaProductosContainer = qs("#lista-productos");
-const carritoHTML = qs("#carrito");
-const totalHTML = qs("#total");
-const btnVaciar = qs("#vaciar");
-const btnComprar = qs("#comprar");
-const btnAplicarCupon = qs("#aplicar-cupon");
-const cuponInput = qs("#cupon");
-const msgCupon = qs("#msg-cupon");
-// Cargar productos desde la API
-async function loadProducts() {
-    try {
-        const response = await fetch("/api/products");
-        const result = await response.json();
-        if (result.ok) {
-            renderProducts(result.data);
-        }
-        else {
-            console.error("Error al cargar productos:", result.error);
-        }
-    }
-    catch (error) {
-        console.error("Error al cargar productos:", error);
-    }
-}
-// Renderizar productos en el DOM
-function renderProducts(products) {
-    listaProductosContainer.innerHTML = products.map(product => `
-    <div class="producto" data-id="${product.id}">
-      <h3>${product.nombre}</h3>
-      <p>Precio: $${product.precio}</p>
-      <p>Stock: ${product.stock}</p>
-      <button class="btn-agregar">Agregar al carrito</button>
-    </div>
-  `).join("");
-    // Agregar event listeners a los botones
-    const productElements = document.querySelectorAll(".producto");
-    productElements.forEach((div) => {
-        const id = Number(div.getAttribute("data-id"));
-        const name = div.querySelector("h3").textContent;
-        const price = Number(div.querySelector("p").textContent.replace("Precio: $", ""));
-        const producto = new Producto(id, name, price);
-        const btn = div.querySelector(".btn-agregar");
-        btn.addEventListener("click", () => {
-            cartService.agregarProducto(producto, 1);
-            renderCarrito();
-        });
-    });
-}
-// Función para renderizar carrito
-function renderCarrito() {
-    const items = cartService.listarProductos();
-    if (items.length === 0) {
-        carritoHTML.innerHTML = `<p>El carrito está vacío.</p>`;
-    }
-    else {
-        carritoHTML.innerHTML = items
-            .map((p) => `<p>${p.nombre} x${p.cantidad} — $${p.precio * p.cantidad}</p>`)
-            .join("");
-    }
-    // Total con descuento (si hay cupón)
-    const total = cartService.obtenerTotal();
-    const totalConDescuento = couponService.aplicarDescuento(total);
-    totalHTML.textContent = totalConDescuento.toFixed(2);
-}
-// Vaciar carrito
-btnVaciar.addEventListener("click", () => {
-    cartService.vaciarCarrito();
+// ===========================
+// ELEMENTOS DEL DOM
+// ===========================
+const listaProductos = document.getElementById("lista-productos");
+const carritoDiv = document.getElementById("carrito");
+const totalSpan = document.getElementById("total");
+
+const cuponInput = document.getElementById("cupon");
+const btnAplicarCupon = document.getElementById("aplicar-cupon");
+const msgCupon = document.getElementById("msg-cupon");
+
+const btnVaciar = document.getElementById("vaciar");
+
+// Carrito en memoria    
+let carrito = [];
+let descuento = 0;
+
+// ===========================
+// INICIO
+// ===========================
+window.addEventListener("DOMContentLoaded", async () => {
+    const ok = await authGuard();
+    if (!ok) return;
+
+    await cargarProductos();
     renderCarrito();
 });
-// Comprar
-btnComprar.addEventListener("click", async () => {
+
+// ===========================
+// FUNCIÓN PRINCIPAL: CARGAR PRODUCTOS
+// ===========================
+async function cargarProductos() {
     try {
-        const items = cartService.listarProductos();
-        if (items.length === 0) {
-            alert("El carrito está vacío");
+        const response = await service.getProducts();
+
+        console.log("DEBUG productos:", response.data);
+
+        const productos = response.data?.data;  // <<--- ESTA ES LA CLAVE
+
+        listaProductos.innerHTML = "";
+
+        if (!Array.isArray(productos) || productos.length === 0) {
+            listaProductos.innerHTML = "<p>No hay productos disponibles.</p>";
             return;
         }
-        // Sincronizar carrito con el backend
-        for (const item of items) {
-            await fetch("/api/cart", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify({
-                    productId: item.id,
-                    quantity: item.cantidad
-                })
-            });
-        }
-        // Crear preferencia de pago
-        const response = await fetch("/api/payments/create-preference", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include"
-        });
-        const result = await response.json();
-        if (result.ok) {
-            // Redirigir a MercadoPago
-            window.location.href = result.data.sandbox_init_point || result.data.init_point;
-        }
-        else {
-            alert("Error: " + result.error);
-        }
+
+        productos.forEach(p => renderProducto(p));
+
+    } catch (error) {
+        console.error("Error cargando productos:", error);
+        listaProductos.innerHTML = "<p>Error al cargar productos.</p>";
     }
-    catch (err) {
-        alert("Error al procesar la compra: " + (err.message || "Error desconocido"));
+}
+
+
+// ===========================
+// RENDERIZAR CADA PRODUCTO
+// ===========================
+function renderProducto(prod) {
+    const card = document.createElement("div");
+    card.className = "producto-card";
+
+    card.innerHTML = `
+        <img src="${prod.imagen || "https://via.placeholder.com/150"}" class="producto-img">
+        <h3>${prod.nombre}</h3>
+        <p>${prod.descripcion || ""}</p>
+        <p class="precio">$${prod.precio}</p>
+        <button class="btn-add">Agregar al carrito</button>
+    `;
+
+    card.querySelector(".btn-add").addEventListener("click", () => {
+        agregarAlCarrito(prod);
+    });
+
+    listaProductos.appendChild(card);
+}
+
+// ===========================
+// AGREGAR PRODUCTO AL CARRITO
+// ===========================
+function agregarAlCarrito(prod) {
+    const existe = carrito.find((p) => p.id === prod.id);
+
+    if (existe) {
+        existe.cantidad++;
+    } else {
+        carrito.push({ ...prod, cantidad: 1 });
     }
-});
-// Aplicar cupón
-btnAplicarCupon.addEventListener("click", async () => {
-    const code = cuponInput.value.trim();
-    if (!code) {
-        msgCupon.textContent = "Ingresa un código de cupón";
+
+    renderCarrito();
+}
+
+// ===========================
+// RENDER CARRITO
+// ===========================
+function renderCarrito() {
+    carritoDiv.innerHTML = "";
+
+    if (carrito.length === 0) {
+        carritoDiv.innerHTML = "<p>El carrito está vacío.</p>";
+        totalSpan.textContent = "0";
         return;
     }
-    const result = await couponService.validateCoupon(code);
-    msgCupon.textContent = result.message;
-    // Actualiza el total con el descuento aplicado
+
+    carrito.forEach((item) => {
+        const row = document.createElement("div");
+        row.className = "carrito-item";
+
+        row.innerHTML = `
+            <span>${item.nombre} x${item.cantidad}</span>
+            <span>$${item.precio * item.cantidad}</span>
+            <button class="btn-remove">X</button>
+        `;
+
+        row.querySelector(".btn-remove").addEventListener("click", () => {
+            eliminarDelCarrito(item.id);
+        });
+
+        carritoDiv.appendChild(row);
+    });
+
+    actualizarTotal();
+}
+
+// ===========================
+// ELIMINAR UN ÍTEM DEL CARRITO
+// ===========================
+function eliminarDelCarrito(id) {
+    carrito = carrito.filter((p) => p.id !== id);
+    renderCarrito();
+}
+
+// ===========================
+// VACÍAR CARRITO
+// ===========================
+btnVaciar.addEventListener("click", () => {
+    carrito = [];
+    descuento = 0;
+    msgCupon.textContent = "";
     renderCarrito();
 });
-// Inicializar vista
-document.addEventListener("DOMContentLoaded", async () => {
-    const ok = await authGuard()
-    if (!ok) return
-    loadProducts();
-    renderCarrito();
-    // Verificar si hay mensaje de pago en la URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const paymentStatus = urlParams.get('payment');
-    if (paymentStatus === 'success') {
-        alert('¡Pago realizado con éxito!');
-        cartService.vaciarCarrito();
-        renderCarrito();
+
+// ===========================
+// ACTUALIZAR TOTAL
+// ===========================
+function actualizarTotal() {
+    let total = carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
+
+    if (descuento > 0) {
+        total = total - (total * descuento);
     }
-    else if (paymentStatus === 'failure') {
-        alert('El pago no pudo ser procesado.');
+
+    totalSpan.textContent = total.toFixed(2);
+}
+
+// ===========================
+// CUPONES DE DESCUENTO
+// ===========================
+btnAplicarCupon.addEventListener("click", () => {
+    const codigo = cuponInput.value.trim().toUpperCase();
+
+    if (!codigo) return;
+
+    if (codigo === "DESC10") {
+        descuento = 0.10;
+        msgCupon.textContent = "Cupón aplicado: 10% OFF";
+        msgCupon.style.color = "green";
+    } else if (codigo === "VET20") {
+        descuento = 0.20;
+        msgCupon.textContent = "Cupón aplicado: 20% OFF";
+        msgCupon.style.color = "green";
+    } else {
+        descuento = 0;
+        msgCupon.textContent = "Cupón inválido.";
+        msgCupon.style.color = "red";
     }
-    else if (paymentStatus === 'pending') {
-        alert('El pago está pendiente de confirmación.');
-    }
+
+    actualizarTotal();
 });

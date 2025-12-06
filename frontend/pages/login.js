@@ -25,6 +25,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
         const id = data.data.id
         console.log(role)
         console.log(id)
+        window.location.href = "/frontend/vistas/index.html";
     }
     localStorage.setItem("data",JSON.stringify(data))
     

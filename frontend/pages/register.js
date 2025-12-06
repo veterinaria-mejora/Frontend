@@ -1,5 +1,5 @@
-import { api } from "../services/api.js";
-import authGuard from "./authprovider.js"
+import service, { api } from "../services/api.js";
+import authGuard from "../authprovider.js"
 
 function qs(sel) {
     const el = document.querySelector(sel);
@@ -8,8 +8,7 @@ function qs(sel) {
     return el;
 }
 document.addEventListener("DOMContentLoaded", async () => {
-    const ok = await authGuard()
-    if (!ok) return
+
     const form = qs("#registerForm");
     const regex = /^[^\s@]+@gmail\.com$/i;
     const nameInput = qs("#name");
@@ -38,8 +37,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             msgEl.textContent = "Completa email y contrasena";
             return;
         }
+        console.log(name, lastname, email, password)
         try {
-            const response = await api.register({ name, lastname, email, password });
+            const response = await service.registerUser(name, lastname, email, password );
             if (response.ok) {
                 msgEl.textContent = "Registro exitoso";
                 setTimeout(() => {

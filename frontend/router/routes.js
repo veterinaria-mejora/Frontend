@@ -3,5 +3,8 @@ export const router = {
     ADD_PET: "/pets/addPet", 
     DELETE_PET: `/pets/deletePet`,
     LOGIN:"/user/login",
-    AUTH_USER: "/user/authMe"
+    REGISTER:"/user/register",
+    AUTH_USER: "/user/authMe",
+    SHOW_PRODUCTS: "/products/",
+    ADD_PRODUCTS: "products/addProduct",
 }
