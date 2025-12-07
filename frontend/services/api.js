@@ -12,13 +12,19 @@ const service = {
 
     registerUser: async ( name, lastname, email, password) => await api.post(router.REGISTER, {name, lastname, email, password}),
 
+    logout: async () => await api.post(router.LOGOUT),
+
     auth: async () => await api.get(router.AUTH_USER),
 
     addPet: async (nombre,tipo,raza,edad,descripcion,imagen_m) => await api.post(router.ADD_PET,{nombre,tipo,raza,edad,descripcion,imagen_m}),
 
     deletePet: async (id) => await api.delete(`${router.DELETE_PET}/${id}`),
 
-    getProducts: async () => await api.get(router.SHOW_PRODUCTS)
+    getProducts: async () => await api.get(router.SHOW_PRODUCTS),
+
+    getCart : async () => await api.get(router.GET_CART),
+
+    deleteItem : async (id) => await api.delete(`${router.DELETE_ITEM}/${id}`)
 }
 
 export default service

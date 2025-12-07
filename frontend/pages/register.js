@@ -40,18 +40,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.log(name, lastname, email, password)
         try {
             const response = await service.registerUser(name, lastname, email, password );
-            if (response.ok) {
                 msgEl.textContent = "Registro exitoso";
                 setTimeout(() => {
                     window.location.href = "/frontend/vistas/login/login.html";
                 }, 1000);
             }
-            else {
-                msgEl.textContent = response.error || "Error al registrar";
-            }
-        }
         catch (err) {
-            msgEl.textContent = err.message || "Error de red";
+            msgEl.textContent = err.message || "Error al registrar";
         }
     });
 });

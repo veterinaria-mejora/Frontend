@@ -4,7 +4,10 @@ export const router = {
     DELETE_PET: `/pets/deletePet`,
     LOGIN:"/user/login",
     REGISTER:"/user/register",
+    LOGOUT:"/user/logout",
     AUTH_USER: "/user/authMe",
     SHOW_PRODUCTS: "/products/",
-    ADD_PRODUCTS: "products/addProduct",
+    ADD_PRODUCTS: "/products/addProduct",
+    GET_CART:"/cart/",
+    DELETE_ITEM:"/cart/delete"
 }

@@ -73,7 +73,7 @@ function renderProducto(prod) {
 
     card.querySelector(".btn-add").addEventListener("click", () => {
         agregarAlCarrito(prod);
-    });
+    })
 
     listaProductos.appendChild(card);
 }
