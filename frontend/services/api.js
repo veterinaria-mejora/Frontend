@@ -22,6 +22,8 @@ const service = {
 
     getProducts: async () => await api.get(router.SHOW_PRODUCTS),
 
+    addProductCart: async (productId,quantity) => await api.post(router.ADD_PRODUCT_TO_CART,{productId,quantity}),
+
     getCart : async () => await api.get(router.GET_CART),
 
     deleteItem : async (id) => await api.delete(`${router.DELETE_ITEM}/${id}`)

@@ -1,41 +1,122 @@
 import service from "./services/api.js"
-import authGuard from "./authprovider.js"
+var carrito
+// Sección de productos
+const cartItemsSection = document.querySelector(".cart-items");
+const storeSection = document.querySelector(".store-section");
+const storeHeader = document.querySelector(".store-header");
+const storeTitle = document.querySelector(".store-title");
 
-const tag = document.getElementById("hola")
-const tag2 = document.getElementById("hola2")
-const button = document.getElementById("1")
-window.addEventListener("DOMContentLoaded", async (_event)=>{
+// Lista de productos
+const productsList = document.getElementById("products-list");
 
-    const ok = await authGuard()
-    if (!ok) return
-    const respose = await service.register()
+// Tarjeta del producto (si hay varios, luego se usaría querySelectorAll)
+const productCard = document.querySelector(".product-card");
+const productImage = productCard?.querySelector(".product-img");
+const productName = productCard?.querySelector(".product-name");
 
-    const data = respose.data.formatted
-    
-    console.log(data)
-    console.log(respose)
+// Controles de cantidad
+const productControls = productCard?.querySelector(".product-controls");
+const qtyControl = productCard?.querySelector(".qty-control");
+const qtyBtnMinus = productCard?.querySelector(".qty-control button:first-child");
+const qtyValue = productCard?.querySelector(".qty-control div");
+const qtyBtnPlus = productCard?.querySelector(".qty-control button:last-child");
 
-    data.forEach(element => {
-        const p = document.createElement("p")
-        p.innerText = element.raza
-        tag.appendChild(p)
-    
-    });
+// Precios
+const productPriceBlock = productCard?.querySelector(".product-price");
+const priceCurrent = productCard?.querySelector(".price-current");
+const priceOld = productCard?.querySelector(".price-old");
+
+// Barra de envío
+const shippingBarWrap = document.querySelector(".shipping-bar-wrap");
+const shippingBar = document.querySelector(".shipping-bar");
+const shippingProgress = document.querySelector(".shipping-progress");
+const shippingLabel = document.querySelector(".shipping-label");
+
+// Panel lateral resumen
+const cartSummary = document.querySelector(".cart-summary");
+const summaryCard = document.querySelector(".summary-card");
+
+// Filas del resumen
+const summaryRows = summaryCard?.querySelectorAll(".summary-row");
+const summaryTotal = summaryCard?.querySelector(".summary-total");
+
+// Botón principal
+const btnPrimary = summaryCard?.querySelector(".btn-primary");
+const couponLink = summaryCard?.querySelector(".coupon-link");
+
+
+document.addEventListener("DOMContentLoaded",async ()=>{
+    await cargarCarrito()
+    await main()
 })
 
-button.addEventListener("click",async (_Event)=>{
-    const input = document.getElementById("1")
-    const input1 = document.getElementById("3")
-    const input2 = document.getElementById("4")
-    const input3 = document.getElementById("5")
-    const input4 = document.getElementById("6")
-    const input5 = document.getElementById("7")
-    await gaga(input.value,input1.value,input2.value,input3.value,input4.value,input5.value,)
-})
+async function  main(){
+    console.log(carrito)
+    carrito.forEach(product => {
+    const div = document.createElement("div")
+    div.classList.add("product-card")
+    div.id = product.id
+    console.log(product.imagen)
+    div.innerHTML = `
 
+    <img class="product-img" src="${product.imagen}" alt="img">
 
+    <div class="product-meta">
+        <h3 class="product-name">${product.nombre}</h3>
 
-async function gaga(i,ins,inp,inpu,input,inputt) {
-    const response = await service.addPet(i,ins,inp,Number(inpu),input,inputt)
-    console.log(response.data)
+        <div class="product-controls">
+            <div class="qty-control">
+                <button class="btn-del">-</button>
+                <div>${product.cantidad}</div>
+                <button class="btn-add">+</button>
+            </div>
+
+            <span class="stock-info">${product.stock} disponibles</span>
+        </div>
+    </div>
+
+    <div class="product-price">
+        <div class="price-current">$ ${product.precio * product.cantidad}</div>
+    </div>
+`
+        productsList.appendChild(div )
+        div.querySelector(".btn-add").addEventListener("click",async() => {
+            await service.addProductCart(product.id,1)
+            await cargarCarrito()
+            refreshLabels(product.id)
+        })
+        div.querySelector(".btn-del").addEventListener("click",async() => {
+            await service.deleteItem(product.id)
+            await cargarCarrito()
+            refreshLabels(product.id)
+        })
+    })
+    
+
+}
+
+async function cargarCarrito() {
+    try {
+
+        const res = await service.getCart()
+
+        
+        if (res.data.data.items.length == 0) {
+            productsList.innerHTML = "<p>No hay productos en tu carrito.</p>";
+            return
+        }
+        
+        carrito = res.data.data.items
+    } catch (error) {
+        productsList.innerHTML = `<p>error cargando el carrito</p>`
+        document.getElementsByTagName("body")[0].innerHTML = ""
+        return
+    }
+}
+
+function refreshLabels(Pid){
+    const ElementChange = document.getElementById(Pid)
+    const ProductChose = carrito.filter( prod => Pid = prod.id)[0]
+    const childrens = ElementChange.children
+    console.log(ElementChange,ProductChose,childrens)
 }
