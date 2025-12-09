@@ -14,8 +14,8 @@
         <title>Carrito - Layout</title>
         <style>
             :root {
-                --bg: #f5f6f7;
-                --card-bg: #ffffff;
+                --bg: #ffffff;
+                --card-bg: #f7eaea;
                 --muted: #6b7280;
                 --accent: #00a650; /* verde envío */
                 --primary: #0b76ff; /* botón continuar */
@@ -190,8 +190,9 @@
 
             .shipping-progress {
                 height: 100%;
-                width: 100%; /* ajustable según monto */
-                background: linear-gradient(90deg, var(--accent), #48c779);
+                width: 100%;
+                transition: width 0.4s ease, background-color 0.4s ease;
+                background-color: rgb(76, 175, 80)
             }
 
             .shipping-label {
@@ -200,7 +201,12 @@
                 color: var(--accent);
                 font-weight: 600;
             }
-
+            .gaga{
+                margin-top: 8px;
+                font-size: 13px;
+                color: var(--accent);
+                font-weight: 600;
+            }
             /* Panel resumen */
             .cart-summary {
                 position: sticky;
@@ -328,6 +334,14 @@
     color: #00a650;
     font-weight: 700;
 }
+.shipping-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+}
 
 
         </style>
@@ -345,34 +359,37 @@
 
                     <div class="products-list" id="products-list">
 
-                        
                     </div>
                     <div class="shipping-bar-wrap">
-                        <div class="shipping-bar" aria-hidden>
-                            <div class="shipping-progress" style="width: 0%;"></div>
+                        <div class="shipping-header">
+                            <span style="margin-top: 10px;font-size: 20px;">Envio</span>
+                            <span class="shipping-label"></span>
+                            
                         </div>
-                        <div class="shipping-label">Envío gratis</div>
+                        <div class="shipping-bar" aria-hidden>
+                            <div class="shipping-progress"></div>
+                        </div>
+                        <div class="shipping-labell"></div>
                     </div>
                 </article>
             </section>
 
-            <!-- PANEL RESUMEN -->
             <aside class="cart-summary">
                 <div class="summary-card">
                     <div>resumen de compra</div><br>
                     <div class="summary-row">
-                        <div>Producto</div>
-                        <div style="color: var(--muted); text-decoration: line-through;"> $ 101.727</div>
+                        <div>productos</div>
+                        <div style="color: black" class="priceProducts"></div>
                     </div>
 
                     <div class="summary-row">
                         <div>Envío</div>
-                        <div style="color: var(--accent);">Gratis</div>
+                        <div style="color: var(--accent);" class="EnvioState"></div>
                     </div>
 
                     <div class="summary-row summary-total">
                         <div>Total</div>
-                        <div>$ 86.999</div>
+                        <div class="TotalPrice"></div>
                     </div>
 
                     <button class="btn-primary">Continuar compra</button>

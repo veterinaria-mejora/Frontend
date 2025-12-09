@@ -1,29 +1,24 @@
 import service from "./services/api.js"
 var carrito
 var ValorEnvio 
-var envioGratis
 const CostoEnvioGratis = 35000
 
 
 // Lista de productos
 const productsList = document.getElementById("products-list");
 
-
-// Barra de envío
-const shippingBarWrap = document.querySelector(".shipping-bar-wrap");
-const shippingBar = document.querySelector(".shipping-bar");
+//bar and labels
 const shippingProgress = document.querySelector(".shipping-progress");
 const shippingLabel = document.querySelector(".shipping-label");
+const shippinglabell = document.querySelector(".shipping-labell")
 
-// Panel lateral resumen
-const cartSummary = document.querySelector(".cart-summary");
+//resume of info of the purchase
+const totalPriceProducts = document.querySelector(".priceProducts");
+const finalTravelState = document.querySelector(".EnvioState");
+const totalPricePurchase = document.querySelector(".TotalPrice");
+
+
 const summaryCard = document.querySelector(".summary-card");
-
-// Filas del resumen
-const summaryRows = summaryCard?.querySelectorAll(".summary-row");
-const summaryTotal = summaryCard?.querySelector(".summary-total");
-
-// Botón principal
 const btnPrimary = summaryCard?.querySelector(".btn-primary");
 const couponLink = summaryCard?.querySelector(".coupon-link");
 
@@ -83,7 +78,6 @@ async function cargarCarrito() {
 
         const res = await service.getCart()
 
-        
         if (res.data.data.items.length == 0) {
             productsList.innerHTML = "<p>No hay productos en tu carrito.</p>";
             return
@@ -96,17 +90,46 @@ async function cargarCarrito() {
         return
     }
     const precioTotal = carrito.reduce((acum,product)=> acum + (product.precio * product.cantidad),0)
+
     if (precioTotal >= CostoEnvioGratis) {
-        envioGratis = true
+        
         ValorEnvio = 0
         shippingProgress.style.width = "100%"
+        shippingLabel.innerHTML = `<p>Posees envio gratis</p>`
+        shippingLabel.style.color = "green"
+        shippinglabell.innerHTML = ``
+        finalTravelState.style.color = "green"
+        finalTravelState.innerHTML = `Gratis`
     }else{
-        envioGratis = false
         ValorEnvio = precioTotal*0.15
         const valorPorcentual = (precioTotal/CostoEnvioGratis )*100
+        
+        if (valorPorcentual < 50) {
+            
+            shippingProgress.style.backgroundColor = "#ff4e50"
+        } else if (valorPorcentual < 80) {
+            
+            shippingProgress.style.backgroundColor = "#ff9f1c"
+        } else {
+            shippingProgress.style.backgroundColor = "#4caf50"
+        }
+        
         shippingProgress.style.width = `${valorPorcentual}%`
+        shippingLabel.innerHTML =  `<p>$${parseInt(ValorEnvio)}</p>`
+        shippinglabell.innerHTML = `<p>Necesitas $${CostoEnvioGratis - precioTotal} para el envio gratis</p>`
+        shippingLabel.style.color = "black"; shippingLabel.style.fontSize = "15px"
+        finalTravelState.style.color = "black"
+        finalTravelState.innerHTML = `$${parseInt(ValorEnvio)}`
+        
+        
+        //totalPriceProducts
+        // totalPricePurchase  
     }
+    totalPriceProducts.innerHTML = `$${precioTotal}`
+    totalPricePurchase.innerHTML = `$${precioTotal + parseInt(ValorEnvio)}`
+
 }
+
 function refreshLabels(Pid){
     const ElementChange = document.getElementById(Pid)
     const ProductChose = carrito.filter( prod => Pid == prod.id)[0]
