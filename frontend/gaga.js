@@ -1,30 +1,13 @@
 import service from "./services/api.js"
 var carrito
-// Sección de productos
-const cartItemsSection = document.querySelector(".cart-items");
-const storeSection = document.querySelector(".store-section");
-const storeHeader = document.querySelector(".store-header");
-const storeTitle = document.querySelector(".store-title");
+var ValorEnvio 
+var envioGratis
+const CostoEnvioGratis = 35000
+
 
 // Lista de productos
 const productsList = document.getElementById("products-list");
 
-// Tarjeta del producto (si hay varios, luego se usaría querySelectorAll)
-const productCard = document.querySelector(".product-card");
-const productImage = productCard?.querySelector(".product-img");
-const productName = productCard?.querySelector(".product-name");
-
-// Controles de cantidad
-const productControls = productCard?.querySelector(".product-controls");
-const qtyControl = productCard?.querySelector(".qty-control");
-const qtyBtnMinus = productCard?.querySelector(".qty-control button:first-child");
-const qtyValue = productCard?.querySelector(".qty-control div");
-const qtyBtnPlus = productCard?.querySelector(".qty-control button:last-child");
-
-// Precios
-const productPriceBlock = productCard?.querySelector(".product-price");
-const priceCurrent = productCard?.querySelector(".price-current");
-const priceOld = productCard?.querySelector(".price-old");
 
 // Barra de envío
 const shippingBarWrap = document.querySelector(".shipping-bar-wrap");
@@ -47,10 +30,10 @@ const couponLink = summaryCard?.querySelector(".coupon-link");
 
 document.addEventListener("DOMContentLoaded",async ()=>{
     await cargarCarrito()
-    await main()
+    await ChargeCartUi()
 })
 
-async function  main(){
+async function ChargeCartUi(){
     console.log(carrito)
     carrito.forEach(product => {
     const div = document.createElement("div")
@@ -67,7 +50,7 @@ async function  main(){
         <div class="product-controls">
             <div class="qty-control">
                 <button class="btn-del">-</button>
-                <div>${product.cantidad}</div>
+                <div class="quantity-info">${product.cantidad}</div>
                 <button class="btn-add">+</button>
             </div>
 
@@ -112,11 +95,24 @@ async function cargarCarrito() {
         document.getElementsByTagName("body")[0].innerHTML = ""
         return
     }
+    const precioTotal = carrito.reduce((acum,product)=> acum + (product.precio * product.cantidad),0)
+    if (precioTotal >= CostoEnvioGratis) {
+        envioGratis = true
+        ValorEnvio = 0
+        shippingProgress.style.width = "100%"
+    }else{
+        envioGratis = false
+        ValorEnvio = precioTotal*0.15
+        const valorPorcentual = (precioTotal/CostoEnvioGratis )*100
+        shippingProgress.style.width = `${valorPorcentual}%`
+    }
 }
-
 function refreshLabels(Pid){
     const ElementChange = document.getElementById(Pid)
-    const ProductChose = carrito.filter( prod => Pid = prod.id)[0]
-    const childrens = ElementChange.children
-    console.log(ElementChange,ProductChose,childrens)
+    const ProductChose = carrito.filter( prod => Pid == prod.id)[0]
+    ElementChange.querySelector(".quantity-info").innerHTML = `${ProductChose.cantidad}`
+    ElementChange.querySelector(".stock-info").innerHTML = `${ProductChose.stock} disponibles`
+    ElementChange.querySelector(".price-current").innerHTML = `$ ${ProductChose.precio * ProductChose.cantidad}`
 }
+
+
