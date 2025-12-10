@@ -18,6 +18,7 @@ async function cargarCarrito() {
     try {
 
         const res = await service.getCart()
+        console.log(res)
 
         
         if (res.data.data.items.length == 0) {
