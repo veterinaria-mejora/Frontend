@@ -22,6 +22,13 @@ const summaryCard = document.querySelector(".summary-card");
 const btnPrimary = summaryCard?.querySelector(".btn-primary");
 const couponLink = summaryCard?.querySelector(".coupon-link");
 
+//modal 
+const modal = document.getElementById("modal");
+const overlay = document.getElementById("overlay");
+const openBtn = document.getElementById("openModalBtn");
+const closeBtn = document.getElementById("closeModalBtn");
+
+
 
 document.addEventListener("DOMContentLoaded",async ()=>{
     await cargarCarrito()

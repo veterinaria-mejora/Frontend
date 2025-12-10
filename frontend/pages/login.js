@@ -17,16 +17,20 @@ button.addEventListener("submit", async (e) => {
     }
     try {
         const res = await service.login(email, password)
-        const data = res.data
-        window.location.href = "/frontend/vistas/index.html";
+        const data = res.data   
+        console.log(data);
         localStorage.setItem("data",JSON.stringify(data.data))
-        console.log(JSON.parse(localStorage.getItem("data")))
+        if (data.rol == "user") window.location.href = "/frontend/vistas/index.html";
+        else if (data.rol == "doctor") window.location.href = "/frontend/vistas/doc.html"
+        else window.location.href = "frontend/vistas/admin.html"
     } catch (error) {
         console.log(error)
         return
     }
+
 })
-// IR A REGISTRO
+
+
 document.getElementById("goRegister").addEventListener("click", () => {
     window.location.href = "../register/register.html";
 });
