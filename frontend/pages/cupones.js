@@ -1,7 +1,8 @@
 import authGuard from "../authprovider.js"
 import service from "../services/api.js"
 
-window.addEventListener("DOMContentLoaded", async (_event)=>{
+
+window.addEventListener("DOMContentLoaded", async () => {
     const ok = await authGuard()
     if (!ok) return
     await renderCupon

@@ -9,6 +9,7 @@ export const router = {
     LOGOUT:"/user/logout",
     AUTH_USER: "/user/authMe",
     GET_USERS: "/user/",
+    DELETE_USER: "/user/delete",        
 //  --
     SHOW_PRODUCTS: "/products/",
     ADD_PRODUCTS: "/products/addProduct",
@@ -17,5 +18,13 @@ export const router = {
     DELETE_ITEM:"/cart/delete",
     ADD_PRODUCT_TO_CART:"/cart/add",
 //  --
-    USE_COUPON:"/coupons/use"
+    USE_COUPON:"/coupons/use",
+    ADD_COUPON:"/coupons/add",
+    GET_COUPONS: "/coupons/all",
+
+// --
+
+    GET_FORMS:"/form/",
+    NEW_FORM:"/form/newForm",
+    UPDATE_STATE: "/form/estado"
 }
