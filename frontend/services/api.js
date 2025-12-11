@@ -116,7 +116,9 @@ const service = {
     updateFormState: async (idformulario, estado) =>
         await api.put(`${router.UPDATE_STATE}/${idformulario}`, { estado }),
 
+    //  contadores -- -- -- -- --- -- -- --- -- -- -- --- -- -- -- -- -- -- -- -- -- ---- ---- -- -- -- - --- -- --- 
 
+    contadores: async() => api.get(router.CONTADORES)
 
 }
 

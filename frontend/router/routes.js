@@ -30,5 +30,8 @@ export const router = {
 
     GET_FORMS:"/form/",
     NEW_FORM:"/form/newForm",
-    UPDATE_STATE: "/form/estado"
+    UPDATE_STATE: "/form/estado",
+
+//- 
+    CONTADORES:"/contadores/"
 }

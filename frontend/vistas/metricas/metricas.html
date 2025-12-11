@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,61 +17,59 @@
 
 <body class="admin">
 
-<header>
-  <nav>
-    <div class="logo"><i class="fa-solid fa-gear"></i> VetCare Admin</div>
-    <ul>
-      <li><a href="/frontend/vistas/admin.html">Admin</a></li>
-      <li><a href="/frontend/vistas/formulario/listadelosformularios.html">Solicitudes</a></li>
-      <li><a href="/frontend/vistas/verUsuarios/GestionarUser.html">Gestionar</a></li>
-      <li><a href="/frontend/vistas/cupones/gestionCupones.html">Cupones</a></li>
-    </ul>
-  </nav>
-</header>
+  <header>
+    <nav>
+      <div class="logo"><i class="fa-solid fa-gear"></i> VetCare Admin</div>
+      <ul>
+        <li><a href="/frontend/vistas/admin.html">Admin</a></li>
+        <li><a href="/frontend/vistas/formulario/listadelosformularios.html">Solicitudes</a></li>
+        <li><a href="/frontend/vistas/verUsuarios/GestionarUser.html">Gestionar</a></li>
+        <li><a href="/frontend/vistas/cupones/gestionCupones.html">Cupones</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<section class="dashboard">
-  <h2>Métricas Generales</h2>
+  <section class="dashboard">
+    <h2>Métricas Generales</h2>
 
-  <div class="cards">
-    <div class="card">
-      <i class="fa-solid fa-users"></i>
-      <h3>Usuarios Registrados</h3>
-      <p class="metric-number">152</p>
+    <div class="cards">
+      <div class="card">
+        <i class="fa-solid fa-users"></i>
+        <h3>Usuarios Registrados</h3>
+        <p id="usuarios" class="metric-number"></p>
+      </div>
+
+      <div class="card">
+        <i class="fa-solid fa-paw"></i>
+        <h3>Solicitudes de Adopción</h3>
+       <p id="adopciones" class="metric-number"></p>
+      </div>
+
+      <div class="card">
+        <i class="fa-solid fa-circle-check"></i>
+        <h3>Aprobadas</h3>
+       <p id="aprobadas" class="metric-number"></p>
+      </div>
+
+      <div class="card">
+        <i class="fa-solid fa-circle-xmark"></i>
+        <h3>Rechazadas</h3>
+       <p id="rechazados" class="metric-number"></p>
+      </div>
+
+      
+      <div class="card">
+        <i class="fa-solid fa-paw"></i>
+        <h3>Cantidad de Mascotas</h3>
+       <p id="mascotas" class="metric-number"></p>
+      </div>
     </div>
 
-    <div class="card">
-      <i class="fa-solid fa-paw"></i>
-      <h3>Solicitudes de Adopción</h3>
-      <p class="metric-number">87</p>
-    </div>
 
-    <div class="card">
-      <i class="fa-solid fa-circle-check"></i>
-      <h3>Aprobadas</h3>
-      <p class="metric-number">62</p>
-    </div>
-
-    <div class="card">
-      <i class="fa-solid fa-circle-xmark"></i>
-      <h3>Rechazadas</h3>
-      <p class="metric-number">25</p>
-    </div>
-  </div>
-
-  <!-- Placeholder de gráficos -->
-  <div class="charts">
-    <div class="chart-card">
-      <h3>Adopciones por Mes</h3>
-      <div class="chart-placeholder">📊</div>
-    </div>
-
-    <div class="chart-card">
-      <h3>Usuarios Nuevos</h3>
-      <div class="chart-placeholder">📈</div>
-    </div>
-  </div>
-
-</section>
+  </section>
 
 </body>
+
+<script type="module" src="../../pages/metricas.js"></script>
+
 </html>
