@@ -1,14 +1,98 @@
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script type="module" src="../../pages/carrito.js"></script>
-</head>
-<body>
-    <div id="ProductsContainer"></div>
-    <div id="processPay"></div>
-</body>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+          <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="module" src="../../pages/carrito.js"></script>
+        <title>Carrito - Layout</title>
+        <link rel="stylesheet" href="../../styles/cart.css">
+    </head>
+    <body>
+        <header>
+    <nav>
+    
+      <div class="logo">
+        <img src="/frontend/img/vete.jpg" alt="Logo Veterinaria Los Carruseles" class="logo-img">
+        VetCarruseles
+      </div>
+    
+      <ul>
+        <li><a href="../index.html">Inicio</a></li>
+        <li><a href="../adopciones/adopciones.html">Adopciones</a></li>
+        <li><a href="./tienda.html">Tienda</a></li>
+        <li><a href="#" id="logoutBtn">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+    </header>
+        <main class="cart-wrapper">
+            <section class="cart-items">
+                <article class="store-section">
+                    <div class="store-header">
+                        <div>
+                            <div class="store-title">Productos</div>
+                        </div>
+                    </div>
+                    
+                    <div class="products-list" id="products-list"></div>
+
+                    <div class="shipping-bar-wrap">
+                        <div class="shipping-header">
+                            <span style="margin-top: 10px;font-size: 20px;">Envio</span>
+                            <span class="shipping-label"></span>
+                            
+                        </div>
+                        <div class="shipping-bar" aria-hidden>
+                            <div class="shipping-progress"></div>
+                        </div>
+                        <div class="shipping-labell"></div>
+                    </div>
+                </article>
+            </section>
+
+            <aside class="cart-summary">
+                <div class="summary-card">
+                    <div>resumen de compra</div><br>
+                    <div class="summary-row">
+                        <div>productos</div>
+                        <div style="color: black" class="priceProducts"></div>
+                    </div>
+
+                    <div class="summary-row">
+                        <div>Envío</div>
+                        <div style="color: var(--accent);" class="EnvioState"></div>
+                    </div>
+
+                    <div class="summary-row summary-total">
+                        <div>Total</div>
+                        <div id="discount-box" class="discount-box" style="display: none;">
+                            <span class="discount-tag" id="discount-tag"></span>
+                            <span class="discount-old" id="discount-old"></span>
+                        </div>
+                        <div class="TotalPrice"></div>
+                    </div>
+
+                    <button class="btn-primary">Continuar compra</button>
+                    <div class="centerbuton">
+                        <button class="coupon-lin" id="openModalBtn">Ingresar código de cupón</button>
+                    </div>
+                </div>
+            </aside>
+        
+        </main>
+
+        <div id="overlay" class="overlay"></div>
+
+        <div id="modal" class="modal">
+            <button class="close-btn" id="closeModalBtn"></button>
+            <h2>Cupones</h2>
+
+            <div class="modal-content">
+                <input type="text" placeholder="Ingresar código de cupón" id="input">
+                <button class="apply-btn" id="apply-btn">Agregar cupón</button>
+            </div>
+            <p id="gaga" style="padding: 10px;"></p>
+        </div>
+    </body>
 </html>

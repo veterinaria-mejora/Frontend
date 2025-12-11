@@ -4,7 +4,7 @@ var carrito
 var ValorEnvio 
 const CostoEnvioGratis = 35000
 var opened = false
-var discountPorcentage
+var discountPorcentage = 0
 
 // Lista de productos
 const productsList = document.getElementById("products-list");
@@ -26,7 +26,7 @@ const openBtn = document.getElementById("openModalBtn")
 const closeBtn = document.getElementById("closeModalBtn")
 const codeButton = document.getElementById("apply-btn")
 const inputCoupon = document.getElementById("input")
-
+const buttonmodal = document.getElementById("gaga")
 
 
 document.addEventListener("DOMContentLoaded",async ()=>{
@@ -133,6 +133,18 @@ async function cargarCarrito() {
     }
     totalPriceProducts.innerHTML = `$${precioTotal}`
     totalPricePurchase.innerHTML = `$${(precioTotal + parseInt(ValorEnvio)) - ((precioTotal + parseInt(ValorEnvio)) * (discountPorcentage != 0 ? discountPorcentage : 0))}`
+    const totalSinDescuento =(precioTotal + parseInt(ValorEnvio))
+    const box = document.getElementById("discount-box");
+    const tag = document.getElementById("discount-tag");
+    const old = document.getElementById("discount-old");
+
+    if (discountPorcentage > 0) {
+        box.style.display = "flex";
+        tag.textContent = `-${discountPorcentage * 100}%`;
+        old.textContent = `$${totalSinDescuento}`;
+    } else {
+        box.style.display = "none";
+    }
 
 }
 
@@ -162,9 +174,20 @@ async function useCoupon(){
     console.log(coupon)
     try {
         const delet = await service.useCoupon(coupon)
+        console.log(delet)
+        buttonmodal.innerHTML = "tu cupon se ha canjeado con exito"
         
+        discountPorcentage = delet.data.data.discount/100
+        await new Promise(r => setTimeout(r, 2000))
         
+        if (opened) closeModal()
+            await cargarCarrito()
+        buttonmodal.innerHTML = ""
     } catch (error) {
+        buttonmodal.innerHTML = "Cupon incorrecto o expirado"
+        await new Promise(r => setTimeout(r, 2000))
+        buttonmodal.innerHTML = ""
+
         return
     }
     

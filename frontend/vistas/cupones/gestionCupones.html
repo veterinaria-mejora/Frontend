@@ -1,42 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Administrar Cupones</title>
-  <link rel="stylesheet" href="/frontend/styles/cuponesStyles.css">
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Administrar Cupones</title>
+    <link rel="stylesheet" href="/frontend/styles/cuponesStyles.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module" src="/frontend/pages/cupones.js"></script>
 </head>
 <body>
-  <header>
-    <nav>
-      <div class="logo"><i class="fa-solid fa-gear"></i> VetCare Admin</div>
-      <ul>
-      <li><a href="/frontend/vistas/admin.html">Admin</a></li>
-      <li><a href="/frontend/vistas/verUsuarios/GestionarUser.html">Usuarios</a></li>
-      <li><a href="/frontend/vistas/formulario/listadelosformularios.html">Solicitudes</a></li>
-      <li><a href="/frontend/vistas/Metricas/metricas.html">Metricas</a></li>    
-      <li><a href="/frontend/vistas/cupones/gestionCupones.html">Cupones</a></li>
-      </ul>
-    </nav>
-  </header>
+    <header>
+        <nav>
+        <div class="logo"><i class="fa-solid fa-gear"></i> VetCare Admin</div>
+        <ul>
+        <li><a href="/frontend/vistas/admin.html">Admin</a></li>
+        <li><a href="/frontend/vistas/verUsuarios/GestionarUser.html">Usuarios</a></li>
+        <li><a href="/frontend/vistas/formulario/listadelosformularios.html">Solicitudes</a></li>
+        <li><a href="/frontend/vistas/Metricas/metricas.html">Metricas</a></li>    
+        <li><a href="/frontend/vistas/cupones/gestionCupones.html">Cupones</a></li>
+        </ul>
+        </nav>
+    </header>
 
 
-  <h1>Administrar Cupones</h1>
-
-  <form id="agregarCuponForm">
-    <input type="text" id="nuevoCupon" placeholder="Nuevo cupón" required />
-    <button type="submit">Agregar cupón</button>
-  </form>
-
-  <p id="mensajeCupon"></p>
-
-  <h3>Cupones actuales:</h3>
-  <ul id="listaCupones"></ul>
-
-
-  <p><a href="pago.html">Volver a la calculadora</a></p>
-
-  <script type="module" src="/frontend/pages/cupones.js"></script>
+    <h1>Administrar Cupones</h1>
+    <div class="conteiner">
+        <form id="agregarCuponForm">
+            <input type="text" id="nuevoCupon" placeholder="Nombre del cupon" required />
+            <input type="text" id="required" placeholder="porcentaje" required />
+            <button type="submit">Agregar cupón</button>
+        </form>
+        
+        
+        <h3>Cupones actuales:</h3>
+        <div class="couponConteiner"></div>
+    </div>
+        
 
 </body>
 </html>

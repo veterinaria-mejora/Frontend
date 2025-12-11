@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Tienda Veterinaria</title>
   <link rel="stylesheet" href="/frontend/styles/tienda.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
@@ -15,6 +14,7 @@
       <ul>
         <li><a href="../index.html">Inicio</a></li>
         <li><a href="/src/adopciones/pagina-adopcion.html">Adopciones</a></li>
+        <li><a href="./carrito.html">Carrito</a></li>
         <li><a href="/frontend/vistas/agregarMascota/mascota.html">Mis Mascotas</a></li>
       </ul>
     </nav>
@@ -27,26 +27,6 @@
       <div id="lista-productos">
         <!-- Los productos se cargarán dinámicamente desde la API -->
       </div>
-    </section>
-
-    <section>
-      <h2>Carrito</h2>
-
-      <div id="carrito">
-        <p>El carrito está vacío.</p>
-      </div>
-
-      <h3>Total: $<span id="total">0</span></h3>
-      <div id="cupon-area">
-        <input type="text" id="cupon" placeholder="Ingresar cupón">
-        <button id="aplicar-cupon">Aplicar cupón</button>
-        <p id="msg-cupon"></p>
-      </div>
-
-      <button id="vaciar">Vaciar Carrito</button>
-      <a href="https://link.mercadopago.com.ar/veterinariacarriles">
-      <button id="comprar">Procesar Compra</button>
-      </a>
     </section>
   </main>
   <script type="module" src="/frontend/pages/tienda.js"></script>

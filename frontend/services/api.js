@@ -6,7 +6,7 @@ export const api = axios.create({
 })
 
 const service = {
-    register: async () => await api.get(router.GET_PET),
+    register: async () => await api.get(router.GET_PET),//CAMBIAR URGENTEMENTE
 
     login: async (email, password) => await api.post(router.LOGIN, { email, password }),
 
@@ -23,8 +23,11 @@ const service = {
     deletePet: async (id) => await api.delete(`${router.DELETE_PET}/${id}`),
 
     updatePet: async (id, nombre, tipo, raza, edad, descripcion, imagen_m, adoptable) => await api.put(`${router.UPDATE_PET}/${id}`,{ nombre, tipo, raza, edad, descripcion, imagen_m, adoptable }),
+    //PRODUCTOS -- -- --- -- ----------- --------------------------------------------------- -- --- ----- --- --- ----- - -  - -  -- -- - - - - -  --   --  --
 
     getProducts: async () => await api.get(router.SHOW_PRODUCTS),
+    
+    addProduct: async (nombre, precio, stock, url_imagen)=> await api.post(router.ADD_PRODUCTS,{nombre, precio, stock, url_imagen}),
 
     addProductCart: async (productId, quantity) => await api.post(router.ADD_PRODUCT_TO_CART, { productId, quantity }),
 

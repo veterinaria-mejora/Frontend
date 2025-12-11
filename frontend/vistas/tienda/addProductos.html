@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Producto</title>
+    <link rel="stylesheet" href="../../styles/addProductos.css">
+    <script type="module" src="../../pages/addProduct.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+    <header>
+    <nav>
+      <div class="logo">
+        <img src="/frontend/img/vete.jpg" alt="Logo Veterinaria Los Carruseles" class="logo-img">
+        VetCarruseles
+      </div>
+      <ul>
+      <li><a href="/frontend/vistas/admin.html">Admin</a></li>
+      <li><a href="/frontend/vistas/verUsuarios/GestionarUser.html">Usuarios</a></li>
+      <li><a href="/frontend/vistas/formulario/listadelosformularios.html">Solicitudes</a></li>
+      <li><a href="/frontend/vistas/Metricas/metricas.html">Metricas</a></li>    
+      <li><a href="/frontend/vistas/cupones/gestionCupones.html">Cupones</a></li>
+      <li><a href="#" id="logoutBtn">Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+    <div class="container">
+        <h1>Agregar Producto</h1>
+
+        <form id="form-producto">
+            <label>Nombre</label>
+            <input type="text" id="nombre" placeholder="Ej: Mouse Gamer" required>
+
+            <label>Precio</label>
+            <input type="number" id="precio" placeholder="Ej: 15000" required>
+
+            <label>Stock</label>
+            <input type="number" id="stock" placeholder="Ej: 10" required>
+
+            <label>URL Imagen</label>
+            <input type="text" id="url_imagen" placeholder="https://ejemplo.com/img.jpg" required>
+
+            <button type="submit">Guardar Producto</button>
+        </form>
+    </div>
+
+</body>
+</html>
