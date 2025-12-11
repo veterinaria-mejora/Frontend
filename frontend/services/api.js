@@ -36,8 +36,10 @@ const service = {
 
 
 //  coupones -- -- -- -- --- -- -- --- -- -- -- --- -- -- -- -- -- -- -- -- -- ---- ---- -- -- -- - --- -- --- 
-    useCoupon: async (coupon) => await api.patch(router.USE_COUPON,{coupon})
+    useCoupon: async (coupon) => await api.patch(router.USE_COUPON,{coupon}),
+    addCoupon: async ( code, discount ) => await api.post(router.ADD_COUPON,{ code, discount }),
+    getCoupons: async () => await api.get(router.GET_COUPONS),
 
-}
+}   
 
 export default service

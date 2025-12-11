@@ -16,9 +16,10 @@ export const router = {
 //  --
     GET_CART:"/cart/",
     DELETE_ITEM:"/cart/delete",
-
     ADD_PRODUCT_TO_CART:"/cart/add",
 //  --
-    USE_COUPON:"/coupons/use"
+    USE_COUPON:"/coupons/use",
+    ADD_COUPON:"/coupons/add",
+    GET_COUPONS: "/coupons/all"
 
 }

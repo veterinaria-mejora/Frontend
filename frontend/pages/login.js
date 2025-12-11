@@ -27,7 +27,7 @@ button.addEventListener("submit", async (e) => {
             window.location.href = "/frontend/vistas/doc.html"
             return
         }else{
-            window.location.href = "frontend/vistas/admin.html"
+            window.location.href = "/frontend/vistas/admin.html"
             return
         }
     } catch (error) {
