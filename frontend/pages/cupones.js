@@ -1,59 +1,87 @@
-/**
- * Página de Gestión de Cupones - Lógica del cliente
- */
-import { couponService } from "../services/couponService.js";
-import authGuard from "./authprovider.js"
+import service from "../services/api.js";
+import authGuard from "../authprovider.js";
+
+// Elementos del DOM
+const form = document.getElementById("agregarCuponForm");
+const inputCode = document.getElementById("nuevoCupon");
+const inputDiscount = document.getElementById("descuento");
+const mensajeCupon = document.getElementById("mensajeCupon");
+const listaCupones = document.getElementById("listaCupones");
 
 
-window.addEventListener("DOMContentLoaded", async (_event)=>{
+
+window.addEventListener("DOMContentLoaded", async () => {
     const ok = await authGuard()
     if (!ok) return
-    await mostrarCupones()
+    await cargarCupones()
 })
-function qs(sel) {
-    const el = document.querySelector(sel);
-    if (!el)
-        throw new Error(`Elemento no encontrado: ${sel}`);
-    return el;
-}
-const formAgregarCupon = qs("#agregarCuponForm");
-const inputNuevoCupon = qs("#nuevoCupon");
-const mensajeCupon = qs("#mensajeCupon");
-const listaCupones = qs("#listaCupones");
-async function mostrarCupones() {
-    if (!listaCupones)
-        return;
-    listaCupones.innerHTML = "";
-    const cupones = await couponService.loadCoupons();
-    cupones.forEach((c) => {
-        const li = document.createElement("li");
-        li.textContent = c;
-        const btnEliminar = document.createElement("button");
-        btnEliminar.textContent = "Eliminar";
-        btnEliminar.addEventListener("click", async () => {
-            const result = await couponService.deleteCoupon(c);
-            mensajeCupon.textContent = result.message;
-            if (result.success) {
-                await mostrarCupones();
-            }
-        });
-        li.appendChild(btnEliminar);
-        listaCupones.appendChild(li);
-    });
-}
-if (formAgregarCupon && inputNuevoCupon && mensajeCupon) {
-    formAgregarCupon.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const nuevo = inputNuevoCupon.value.trim().toLowerCase();
-        if (!nuevo) {
-            mensajeCupon.textContent = "Ingresa un cupón válido.";
+
+// ==========================
+// Cargar cupones
+// ==========================
+async function cargarCupones() {
+    try {
+        const response = await service.getCoupons();
+
+        if (!response.data.ok) {
+            listaCupones.innerHTML = "<li>Error al cargar cupones</li>";
             return;
         }
-        const result = await couponService.createCoupon(nuevo);
-        mensajeCupon.textContent = result.message;
-        if (result.success) {
-            inputNuevoCupon.value = "";
-            await mostrarCupones();
-        }
-    });
+
+
+      const cupones = response.data.data;
+    
+
+
+         listaCupones.innerHTML = "";
+
+        cupones.forEach(c => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+                <strong>${c.code}</strong> - ${c.discount}% de descuento
+            `;
+            listaCupones.appendChild(li);
+        });
+
+    } catch (e) {
+        console.error("Error cargando cupones:", e);
+        listaCupones.innerHTML = "<li>No se pudieron cargar cupones</li>";
+    }
 }
+
+
+// ==========================
+// Crear cupón
+// ==========================
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const code = inputCode.value.trim();
+    const discount = Number(inputDiscount.value);
+
+    try {
+        const response = await service.addCoupon(code, discount);
+
+        if (response.data.ok) {
+            mensajeCupon.style.color = "green";
+            mensajeCupon.textContent = "Cupón creado correctamente";
+
+            form.reset();
+            cargarCupones();
+        } else {
+            mensajeCupon.style.color = "red";
+            mensajeCupon.textContent = response.data.error || "Error al crear cupón";
+        }
+    } catch (e) {
+        console.log("Error al crear cupón:", e);
+
+        mensajeCupon.style.color = "red";
+        mensajeCupon.textContent = "El cupón ya existe o hubo un error";
+    }
+});
+
+
+// ==========================
+// Inicializar página
+// ==========================
+cargarCupones();
