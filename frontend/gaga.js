@@ -1,8 +1,10 @@
 import service from "./services/api.js"
+
 var carrito
 var ValorEnvio 
 const CostoEnvioGratis = 35000
-
+var opened = false
+var discountPorcentage
 
 // Lista de productos
 const productsList = document.getElementById("products-list");
@@ -13,20 +15,17 @@ const shippingLabel = document.querySelector(".shipping-label");
 const shippinglabell = document.querySelector(".shipping-labell")
 
 //resume of info of the purchase
-const totalPriceProducts = document.querySelector(".priceProducts");
-const finalTravelState = document.querySelector(".EnvioState");
-const totalPricePurchase = document.querySelector(".TotalPrice");
-
-
-const summaryCard = document.querySelector(".summary-card");
-const btnPrimary = summaryCard?.querySelector(".btn-primary");
-const couponLink = summaryCard?.querySelector(".coupon-link");
+const totalPriceProducts = document.querySelector(".priceProducts")
+const finalTravelState = document.querySelector(".EnvioState")
+const totalPricePurchase = document.querySelector(".TotalPrice")
 
 //modal 
-const modal = document.getElementById("modal");
-const overlay = document.getElementById("overlay");
-const openBtn = document.getElementById("openModalBtn");
-const closeBtn = document.getElementById("closeModalBtn");
+const modal = document.getElementById("modal")
+const overlay = document.getElementById("overlay")
+const openBtn = document.getElementById("openModalBtn")
+const closeBtn = document.getElementById("closeModalBtn")
+const codeButton = document.getElementById("apply-btn")
+const inputCoupon = document.getElementById("input")
 
 
 
@@ -133,7 +132,7 @@ async function cargarCarrito() {
         // totalPricePurchase  
     }
     totalPriceProducts.innerHTML = `$${precioTotal}`
-    totalPricePurchase.innerHTML = `$${precioTotal + parseInt(ValorEnvio)}`
+    totalPricePurchase.innerHTML = `$${(precioTotal + parseInt(ValorEnvio)) - ((precioTotal + parseInt(ValorEnvio)) * (discountPorcentage != 0 ? discountPorcentage : 0))}`
 
 }
 
@@ -146,3 +145,32 @@ function refreshLabels(Pid){
 }
 
 
+function openModal() {
+    modal.classList.add("show")
+    overlay.classList.add("show")
+    opened = true
+}
+
+function closeModal() {
+    modal.classList.remove("show")
+    overlay.classList.remove("show")
+    opened = false
+}
+
+async function useCoupon(){
+    const coupon = inputCoupon.value
+    console.log(coupon)
+    try {
+        const delet = await service.useCoupon(coupon)
+        
+        
+    } catch (error) {
+        return
+    }
+    
+}
+
+openBtn.addEventListener("click", openModal)
+closeBtn.addEventListener("click", closeModal)
+overlay.addEventListener("click", closeModal)
+codeButton.addEventListener("click", useCoupon)

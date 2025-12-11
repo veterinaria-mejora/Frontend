@@ -18,11 +18,18 @@ button.addEventListener("submit", async (e) => {
     try {
         const res = await service.login(email, password)
         const data = res.data   
-        console.log(data);
         localStorage.setItem("data",JSON.stringify(data.data))
-        if (data.rol == "user") window.location.href = "/frontend/vistas/index.html";
-        else if (data.rol == "doctor") window.location.href = "/frontend/vistas/doc.html"
-        else window.location.href = "frontend/vistas/admin.html"
+        
+        if (data.data.role == "user") {
+            window.location.href = "/frontend/vistas/index.html"
+            return
+        }else if (data.rol == "doctor"){
+            window.location.href = "/frontend/vistas/doc.html"
+            return
+        }else{
+            window.location.href = "frontend/vistas/admin.html"
+            return
+        }
     } catch (error) {
         console.log(error)
         return
