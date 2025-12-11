@@ -26,6 +26,9 @@ const service = {
 
     updatePet: async (id, nombre, tipo, raza, edad, descripcion, imagen_m, adoptable) => await api.put(`${router.UPDATE_PET}/${id}`,{ nombre, tipo, raza, edad, descripcion, imagen_m, adoptable }),
 
+    forgotedPass: async (email) =>await api.post(router.FORGOTED_PASSWORD,{email}),
+
+    changePass: async (token,password)=>api.post(router.CHANGE_PASWORD,{token,password}),
     
     //PRODUCTOS -- -- --- -- ----------- --------------------------------------------------- -- --- ----- --- --- ----- - -  - -  -- -- - - - - -  --   --  --
 

@@ -9,7 +9,9 @@ export const router = {
     LOGOUT:"/user/logout",
     AUTH_USER: "/user/authMe",
     GET_USERS: "/user/",
-    DELETE_USER: "/user/delete",        
+    DELETE_USER: "/user/delete",    
+    FORGOTED_PASSWORD:"/user/forgot-password",
+    CHANGE_PASWORD:"/user/reset-password",
 //  --
     SHOW_PRODUCTS: "/products/",
     ADD_PRODUCTS: "/products/addProduct",

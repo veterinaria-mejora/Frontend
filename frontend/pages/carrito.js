@@ -1,5 +1,5 @@
 import service from "../services/api.js"
-
+import authGuard from "../authprovider.js"
 var carrito
 var ValorEnvio 
 const CostoEnvioGratis = 35000
@@ -31,6 +31,7 @@ const buttonmodal = document.getElementById("gaga")
 
 
 document.addEventListener("DOMContentLoaded",async ()=>{
+    if(!await authGuard()) return
     await cargarCarrito()
     await ChargeCartUi()
 })
