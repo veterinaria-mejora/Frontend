@@ -6,7 +6,7 @@ import authGuard from "../authprovider.js"
 const container = document.getElementById("dogs");
 const input = document.getElementById("search");
 const filtro = document.getElementById("filter-age");
-const botonAdopcion = document.getElementById("btn-adopt");
+const botonAdopcion = document.getElementById("btn adopt");
 
 let mascotas = [];
 
@@ -54,7 +54,9 @@ function renderMascotas(lista) {
         <p class="desc">${m.desc}</p>
 
         <div class="card-actions">
+        <a href="../formulario/formulario.html">
           <button class="btn adopt" data-id="${m.id}">Adoptar</button>
+          </a>
           <button class="btn details" data-id="${m.id}">Ver detalles</button>
         </div>
       </div>
