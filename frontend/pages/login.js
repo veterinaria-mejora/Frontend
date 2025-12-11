@@ -23,7 +23,7 @@ button.addEventListener("submit", async (e) => {
         if (data.data.role == "user") {
             window.location.href = "/frontend/vistas/index.html"
             return
-        }else if (data.rol == "doctor"){
+        }else if (data.data.role == "doctor"){
             window.location.href = "/frontend/vistas/doc.html"
             return
         }else{

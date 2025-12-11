@@ -14,7 +14,7 @@ body {
 /* ========== HEADER ========== */
 header {
     width: 100%;
-    background: #1f1f1f;
+    background:rgb(0, 123, 255);
     padding: 14px 0;
     margin-bottom: 35px;
     box-shadow: 0 2px 5px rgba(0,0,0,.25);
@@ -29,7 +29,7 @@ nav {
 }
 
 .logo {
-    color: #ffa73c;
+    color: #000000;
     font-size: 22px;
     font-weight: bold;
     display: flex;
@@ -52,7 +52,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    color: #ffa73c;
+    color: rgb(0, 123, 255);
 }
 
 /* ========== TÍTULO GENERAL ========== */
@@ -90,12 +90,12 @@ h1 {
 }
 
 #agregarCuponForm input:focus {
-    border-color: #ff8800;
+    border-color:rgb(0, 123, 255);
 }
 
 #agregarCuponForm button {
     padding: 12px;
-    background: #ff8800;
+    background: rgb(0, 123, 255);
     border: none;
     color: white;
     font-size: 16px;
@@ -105,7 +105,7 @@ h1 {
 }
 
 #agregarCuponForm button:hover {
-    background: #e97500;
+    background: rgb(0, 123, 255)
 }
 
 /* ========== TÍTULO SECCIÓN CUPONES ========== */
@@ -113,7 +113,7 @@ h1 {
     margin-top: 25px;
     font-size: 20px;
     color: #333;
-    border-bottom: 2px solid #ffa73c;
+    border-bottom: 2px solidrgb(0, 123, 255);
     padding-bottom: 8px;
 }
 
@@ -133,7 +133,7 @@ h1 {
     background: #fff5e6;
     padding: 12px 15px;
     border-radius: 8px;
-    border: 1px solid #ffb366;
+    border: 1px solid rgb(0, 123, 255);
 }
 
 .coupon-item span {

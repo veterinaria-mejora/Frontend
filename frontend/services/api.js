@@ -44,7 +44,8 @@ const service = {
     useCoupon: async (coupon) => await api.patch(router.USE_COUPON, { coupon }),
     addCoupon: async (code, discount) => await api.post(router.ADD_COUPON, { code, discount }),
     getCoupons: async () => await api.get(router.GET_COUPONS),
-    updateState: async (code,state) => await api.patch(router.UPDATE_STATE,{code,state}),
+    updateStateCoupon: async (code,state) => await api.patch(router.UPDATE_STATE_COUPON,{code,state}),
+    deleteCoupon: async (code) =>await api.delete(`${router.DELETE_COUPON}/${code}`),
     //  formulario -- -- -- -- --- -- -- --- -- -- -- --- -- -- -- -- -- -- -- -- -- ---- ---- -- -- -- - --- -- --- 
 
     getForm: async () => await api.get(router.GET_FORMS),
