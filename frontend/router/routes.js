@@ -20,6 +20,11 @@ export const router = {
 //  --
     USE_COUPON:"/coupons/use",
     ADD_COUPON:"/coupons/add",
-    GET_COUPONS: "/coupons/all"
+    GET_COUPONS: "/coupons/all",
 
+// --
+
+    GET_FORMS:"/form/",
+    NEW_FORM:"/form/newForm",
+    UPDATE_STATE: "/form/estado"
 }

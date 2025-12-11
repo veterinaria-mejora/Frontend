@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,10 +23,10 @@
     <nav>
       <div class="logo"><i class="fa-solid fa-gear"></i> VetCare Admin</div>
       <ul>
-      <li><a href="/frontend/vistas/admin.html">Admin</a></li>
-      <li><a href="/frontend/vistas/verUsuarios/GestionarUser.html">Usuarios</a></li>
-      <li><a href="/frontend/vistas/Metricas/metricas.html">Metricas</a></li>    
-      <li><a href="/frontend/vistas/cupones/gestionCupones.html">Cupones</a></li>
+        <li><a href="/frontend/vistas/admin.html">Admin</a></li>
+        <li><a href="/frontend/vistas/verUsuarios/GestionarUser.html">Usuarios</a></li>
+        <li><a href="/frontend/vistas/Metricas/metricas.html">Metricas</a></li>
+        <li><a href="/frontend/vistas/cupones/gestionCupones.html">Cupones</a></li>
       </ul>
     </nav>
   </header>
@@ -36,41 +37,62 @@
     <table class="tabla-solicitudes">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Cliente</th>
-          <th>Mascota</th>
-          <th>Fecha</th>
-          <th>Estado</th>
-          <th>Acciones</th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
 
       <tbody>
         <tr>
-          <td data-label="ID">1</td>
-          <td data-label="Cliente">Juan Pérez</td>
-          <td data-label="Mascota">Rocky</td>
-          <td data-label="Fecha">2025-11-10</td>
-          <td data-label="Estado"><span class="estado pendiente">Pendiente</span></td>
+          <td data-label="ID"></td>
+          <td data-label="Cliente"></td>
+          <td data-label="Mascota"></td>
+          <td data-label="Fecha"></td>
+          <td data-label="Estado"><span class="estado pendiente"></span></td>
           <td data-label="Acciones">
-            <a class="btn-ver" href="adicion-detalle.html?id=1">Ver</a>
+            <a class="btn-ver">Ver</a>
           </td>
         </tr>
 
         <tr>
-          <td data-label="ID">2</td>
-          <td data-label="Cliente">María López</td>
-          <td data-label="Mascota">Michi</td>
-          <td data-label="Fecha">2025-11-11</td>
-          <td data-label="Estado"><span class="estado pendiente">Pendiente</span></td>
+          <td data-label="ID"></td>
+          <td data-label="Cliente"></td>
+          <td data-label="Mascota"></td>
+          <td data-label="Fecha"></td>
+          <td data-label="Estado"><span class="estado pendiente"></span></td>
           <td data-label="Acciones">
-            <a class="btn-ver" href="adicion-detalle.html?id=2">Ver</a>
+            <a class="btn-ver">Ver</a>
           </td>
         </tr>
       </tbody>
     </table>
 
   </section>
-<script type="module" src="/Backend/routes/listadelosFormularios.js"></script>
+  <script type="module" src="../../pages/listadeFormularios.js"></script>
+  <div id="formularioModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="cerrarModal()">&times;</span>
+
+      <h2>Detalles del Formulario</h2>
+
+      <div id="modalFields"></div>
+
+      <label for="estadoSelect"><strong>Estado:</strong></label>
+      <select id="estadoSelect">
+        <option value="pendiente">Pendiente</option>
+        <option value="aceptado">Aceptado</option>
+        <option value="rechazado">Rechazado</option>
+      </select>
+
+      <button id="guardarEstadoBtn">Guardar Estado</button>
+    </div>
+  </div>
+
 </body>
+
+
 </html>
