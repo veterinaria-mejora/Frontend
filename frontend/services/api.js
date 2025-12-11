@@ -32,7 +32,12 @@ const service = {
 
     getCart: async () => await api.get(router.GET_CART),
 
-    deleteItem: async (id) => await api.delete(`${router.DELETE_ITEM}/${id}`)
+    deleteItem: async (id) => await api.delete(`${router.DELETE_ITEM}/${id}`),
+
+
+//  coupones -- -- -- -- --- -- -- --- -- -- -- --- -- -- -- -- -- -- -- -- -- ---- ---- -- -- -- - --- -- --- 
+    useCoupon: async (coupon) => await api.patch(router.USE_COUPON,{coupon})
+
 }
 
 export default service
