@@ -65,9 +65,9 @@ h1 {
 
 /* ========== CONTENEDOR PRINCIPAL ========== */
 .conteiner {
-    width: 460px;
+    width: 650px;
     margin: 0 auto;
-    padding: 25px;
+    padding: 30px;
     background: #ffffff;
     border-radius: 14px;
     box-shadow: 0 0 10px rgba(0,0,0,.10);
@@ -154,4 +154,58 @@ h1 {
 
 .delete-coupon:hover {
     background: #d93636;
+}
+
+.coupon-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
+.activar {
+    background: #28a745;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+    
+}
+.activar:hover {
+    background: #218838;
+    box-shadow: 0 3px 10px rgba(0, 120, 0, 0.35);
+}
+
+/* Botón “Desactivar” */
+.desactivar {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.desactivar:hover {
+    background: #b51f2d;
+    box-shadow: 0 3px 10px rgba(150, 0, 0, 0.35);
+}
+
+.coupon-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.coupon-actions {
+    display: flex;
+    gap: 10px;
 }

@@ -21,6 +21,7 @@ export const router = {
     USE_COUPON:"/coupons/use",
     ADD_COUPON:"/coupons/add",
     GET_COUPONS: "/coupons/all",
+    UPDATE_STATE:"/coupons/desAbility",
 
 // --
 

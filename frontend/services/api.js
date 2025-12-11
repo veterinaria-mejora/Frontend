@@ -25,6 +25,8 @@ const service = {
     deletePet: async (id) => await api.delete(`${router.DELETE_PET}/${id}`),
 
     updatePet: async (id, nombre, tipo, raza, edad, descripcion, imagen_m, adoptable) => await api.put(`${router.UPDATE_PET}/${id}`,{ nombre, tipo, raza, edad, descripcion, imagen_m, adoptable }),
+
+    
     //PRODUCTOS -- -- --- -- ----------- --------------------------------------------------- -- --- ----- --- --- ----- - -  - -  -- -- - - - - -  --   --  --
 
     getProducts: async () => await api.get(router.SHOW_PRODUCTS),
@@ -42,7 +44,7 @@ const service = {
     useCoupon: async (coupon) => await api.patch(router.USE_COUPON, { coupon }),
     addCoupon: async (code, discount) => await api.post(router.ADD_COUPON, { code, discount }),
     getCoupons: async () => await api.get(router.GET_COUPONS),
-
+    updateState: async (code,state) => await api.patch(router.UPDATE_STATE,{code,state}),
     //  formulario -- -- -- -- --- -- -- --- -- -- -- --- -- -- -- -- -- -- -- -- -- ---- ---- -- -- -- - --- -- --- 
 
     getForm: async () => await api.get(router.GET_FORMS),
