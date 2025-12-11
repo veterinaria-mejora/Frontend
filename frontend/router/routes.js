@@ -9,6 +9,7 @@ export const router = {
     LOGOUT:"/user/logout",
     AUTH_USER: "/user/authMe",
     GET_USERS: "/user/",
+    DELETE_USER: "/user/delete",        
 //  --
     SHOW_PRODUCTS: "/products/",
     ADD_PRODUCTS: "/products/addProduct",
@@ -16,4 +17,7 @@ export const router = {
     GET_CART:"/cart/",
     DELETE_ITEM:"/cart/delete",
     ADD_PRODUCT_TO_CART:"/cart/add"
+    
+// --
+
 }

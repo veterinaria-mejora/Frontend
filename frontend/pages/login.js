@@ -20,9 +20,9 @@ button.addEventListener("submit", async (e) => {
         const data = res.data   
         console.log(data);
         localStorage.setItem("data",JSON.stringify(data.data))
-        if (data.rol == "user") window.location.href = "/frontend/vistas/index.html";
-        else if (data.rol == "doctor") window.location.href = "/frontend/vistas/doc.html"
-        else window.location.href = "frontend/vistas/admin.html"
+        if (data.rol == "user") window.location.href = "../vistas/index.html";
+        else if (data.rol == "doctor") window.location.href = "../vistas/doc.html"
+        else window.location.href = "../vistas/admin.html"
     } catch (error) {
         console.log(error)
         return

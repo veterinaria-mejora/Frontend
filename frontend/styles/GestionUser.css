@@ -263,3 +263,25 @@ footer i {
     display: none;
   }
 }
+
+.btn-eliminar-usuario {
+  background: #1e88e5;
+  color: white;
+  border: none;
+  margin-left: 50px;
+  border-radius: 8px;
+
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  font-weight: 500;
+
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn-eliminar-usuario:hover {
+  background: #1565c0;
+}
+
+.btn-eliminar-usuario:active {
+  transform: scale(0.97);
+}

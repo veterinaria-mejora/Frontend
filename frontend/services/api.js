@@ -20,6 +20,8 @@ const service = {
 
     addPet: async (nombre, tipo, raza, edad, descripcion, imagen_m) => await api.post(router.ADD_PET, { nombre, tipo, raza, edad, descripcion, imagen_m }),
 
+    deleteUser: async (id) => await api.delete(`${router.DELETE_USER}/${id}`),
+
     deletePet: async (id) => await api.delete(`${router.DELETE_PET}/${id}`),
 
     updatePet: async (id, nombre, tipo, raza, edad, descripcion, imagen_m, adoptable) => await api.put(`${router.UPDATE_PET}/${id}`,{ nombre, tipo, raza, edad, descripcion, imagen_m, adoptable }),
